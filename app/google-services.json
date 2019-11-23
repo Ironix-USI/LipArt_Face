@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "325941581848",
+    "firebase_url": "https://lipart-ed297.firebaseio.com",
+    "project_id": "lipart-ed297",
+    "storage_bucket": "lipart-ed297.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:325941581848:android:20b87552e0969ea0cccb6d",
+        "android_client_info": {
+          "package_name": "com.mobile.lipart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "325941581848-6tpve4r2u1vstgpfs6da42ie6ov7j7ol.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD328BHLMJZFL_Dp3fbqFdcKwW2QiRnvGc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "325941581848-6tpve4r2u1vstgpfs6da42ie6ov7j7ol.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
