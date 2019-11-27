@@ -1,26 +1,32 @@
 package com.mobile.lipart.facedetection;
 
+import android.graphics.BlendMode;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.RectF;
+
 import com.google.firebase.ml.vision.face.FirebaseVisionFace;
 import com.google.firebase.ml.vision.face.FirebaseVisionFaceContour;
-import com.google.firebase.ml.vision.face.FirebaseVisionFaceLandmark;
+import com.google.firebase.ml.vision.common.FirebaseVisionPoint;
 import com.mobile.lipart.common.GraphicOverlay;
 import com.mobile.lipart.common.GraphicOverlay.Graphic;
+import java.util.List;
 
 /** Graphic instance for rendering face contours graphic overlay view. */
 public class FaceContourGraphic extends Graphic {
 
   private static final float FACE_POSITION_RADIUS = 4.0f;
-  private static final float ID_TEXT_SIZE = 30.0f;
-  private static final float ID_Y_OFFSET = 80.0f;
-  private static final float ID_X_OFFSET = -70.0f;
-  private static final float BOX_STROKE_WIDTH = 5.0f;
 
   private final Paint facePositionPaint;
-  private final Paint idPaint;
-  private final Paint boxPaint;
+
+  private final Paint lipPaint;
 
   private volatile FirebaseVisionFace firebaseVisionFace;
 
@@ -33,14 +39,12 @@ public class FaceContourGraphic extends Graphic {
     facePositionPaint = new Paint();
     facePositionPaint.setColor(selectedColor);
 
-    idPaint = new Paint();
-    idPaint.setColor(selectedColor);
-    idPaint.setTextSize(ID_TEXT_SIZE);
+    lipPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    final int lipColor = Color.parseColor("#00B846");
+//    lipPaint.setAlpha(0);
+//    lipPaint.setColorFilter(new PorterDuffColorFilter(lipColor, PorterDuff.Mode.SRC_IN));
+    lipPaint.setColor(lipColor);
 
-    boxPaint = new Paint();
-    boxPaint.setColor(selectedColor);
-    boxPaint.setStyle(Paint.Style.STROKE);
-    boxPaint.setStrokeWidth(BOX_STROKE_WIDTH);
   }
 
   /** Draws the face annotations for position on the supplied canvas. */
@@ -52,82 +56,61 @@ public class FaceContourGraphic extends Graphic {
     }
 
     // Draws a circle at the position of the detected face, with the face's track id below.
-    float x = translateX(face.getBoundingBox().centerX());
-    float y = translateY(face.getBoundingBox().centerY());
-    canvas.drawCircle(x, y, FACE_POSITION_RADIUS, facePositionPaint);
-    canvas.drawText("id: " + face.getTrackingId(), x + ID_X_OFFSET, y + ID_Y_OFFSET, idPaint);
-
-    // Draws a bounding box around the face.
-//    float xOffset = scaleX(face.getBoundingBox().width() / 2.0f);
-//    float yOffset = scaleY(face.getBoundingBox().height() / 2.0f);
-//    float left = x - xOffset;
-//    float top = y - yOffset;
-//    float right = x + xOffset;
-//    float bottom = y + yOffset;
-//    canvas.drawRect(left, top, right, bottom, boxPaint);
+//    float x = translateX(face.getBoundingBox().centerX());
+//    float y = translateY(face.getBoundingBox().centerY());
 
     FirebaseVisionFaceContour contour = face.getContour(FirebaseVisionFaceContour.ALL_POINTS);
-    for (com.google.firebase.ml.vision.common.FirebaseVisionPoint point : contour.getPoints()) {
+    for (FirebaseVisionPoint point : contour.getPoints()) {
       float px = translateX(point.getX());
       float py = translateY(point.getY());
       canvas.drawCircle(px, py, FACE_POSITION_RADIUS, facePositionPaint);
     }
 
-    if (face.getSmilingProbability() >= 0) {
-      canvas.drawText(
-          "happiness: " + String.format("%.2f", face.getSmilingProbability()),
-          x + ID_X_OFFSET * 3,
-          y - ID_Y_OFFSET,
-          idPaint);
-    }
+    List<FirebaseVisionPoint> upperLipBottomContour =
+            face.getContour(FirebaseVisionFaceContour.UPPER_LIP_BOTTOM).getPoints();
+    List<FirebaseVisionPoint> upperLipTopContour =
+            face.getContour(FirebaseVisionFaceContour.UPPER_LIP_TOP).getPoints();
+    List<FirebaseVisionPoint> lowerLipBottomContour =
+            face.getContour(FirebaseVisionFaceContour.LOWER_LIP_BOTTOM).getPoints();
+    List<FirebaseVisionPoint> lowerLipTopContour =
+            face.getContour(FirebaseVisionFaceContour.LOWER_LIP_TOP).getPoints();
 
-    if (face.getRightEyeOpenProbability() >= 0) {
-      canvas.drawText(
-          "right eye: " + String.format("%.2f", face.getRightEyeOpenProbability()),
-          x - ID_X_OFFSET,
-          y,
-          idPaint);
-    }
-    if (face.getLeftEyeOpenProbability() >= 0) {
-      canvas.drawText(
-          "left eye: " + String.format("%.2f", face.getLeftEyeOpenProbability()),
-          x + ID_X_OFFSET * 6,
-          y,
-          idPaint);
-    }
-    FirebaseVisionFaceLandmark leftEye = face.getLandmark(FirebaseVisionFaceLandmark.LEFT_EYE);
-    if (leftEye != null && leftEye.getPosition() != null) {
-      canvas.drawCircle(
-          translateX(leftEye.getPosition().getX()),
-          translateY(leftEye.getPosition().getY()),
-          FACE_POSITION_RADIUS,
-          facePositionPaint);
-    }
-    FirebaseVisionFaceLandmark rightEye = face.getLandmark(FirebaseVisionFaceLandmark.RIGHT_EYE);
-    if (rightEye != null && rightEye.getPosition() != null) {
-      canvas.drawCircle(
-          translateX(rightEye.getPosition().getX()),
-          translateY(rightEye.getPosition().getY()),
-          FACE_POSITION_RADIUS,
-          facePositionPaint);
-    }
+    Path lipUpperPath = new Path();
+    Path lipLowerPath = new Path();
 
-    FirebaseVisionFaceLandmark leftCheek = face.getLandmark(FirebaseVisionFaceLandmark.LEFT_CHEEK);
-    if (leftCheek != null && leftCheek.getPosition() != null) {
-      canvas.drawCircle(
-          translateX(leftCheek.getPosition().getX()),
-          translateY(leftCheek.getPosition().getY()),
-          FACE_POSITION_RADIUS,
-          facePositionPaint);
-    }
-    FirebaseVisionFaceLandmark rightCheek =
-        face.getLandmark(FirebaseVisionFaceLandmark.RIGHT_CHEEK);
-    if (rightCheek != null && rightCheek.getPosition() != null) {
-      canvas.drawCircle(
-          translateX(rightCheek.getPosition().getX()),
-          translateY(rightCheek.getPosition().getY()),
-          FACE_POSITION_RADIUS,
-          facePositionPaint);
+    if (upperLipBottomContour.size() != 0 && lowerLipBottomContour.size() != 0 && upperLipTopContour.size() != 0 && lowerLipTopContour.size() != 0) {
+      lipUpperPath.moveTo(translateX(upperLipTopContour.get(0).getX()), translateY(upperLipTopContour.get(0).getY()));
+      for (FirebaseVisionPoint pt : upperLipTopContour) {
+        lipUpperPath.lineTo(translateX(pt.getX()), translateY(pt.getY()));
+      }
+      for (int i = upperLipBottomContour.size() - 1; i >= 0; i--) {
+        lipUpperPath.lineTo(translateX(upperLipBottomContour.get(i).getX()), translateY(upperLipBottomContour.get(i).getY()));
+      }
+      lipUpperPath.close();
+
+      lipLowerPath.moveTo(translateX(lowerLipTopContour.get(0).getX()), translateY(lowerLipTopContour.get(0).getY()));
+      for (FirebaseVisionPoint pt : lowerLipTopContour) {
+        lipLowerPath.lineTo(translateX(pt.getX()), translateY(pt.getY()));
+      }
+      for (int i = lowerLipBottomContour.size() - 1; i >= 0; i--) {
+        lipLowerPath.lineTo(translateX(lowerLipBottomContour.get(i).getX()), translateY(lowerLipBottomContour.get(i).getY()));
+      }
+      lipLowerPath.close();
+
+//      Matrix scaleMatrix = new Matrix();
+//      RectF rectF = new RectF();
+//      lipUpperPath.computeBounds(rectF, true);
+//      scaleMatrix.setScale(0.9f, 0.5f,rectF.centerX(),rectF.centerY());
+//      lipUpperPath.transform(scaleMatrix);
+//
+//      scaleMatrix = new Matrix();
+//      rectF = new RectF();
+//      lipLowerPath.computeBounds(rectF, true);
+//      scaleMatrix.setScale(0.9f, 0.5f,rectF.centerX(),rectF.centerY());
+//      lipLowerPath.transform(scaleMatrix);
+
+      canvas.drawPath(lipUpperPath, lipPaint);
+      canvas.drawPath(lipLowerPath, lipPaint);
     }
   }
 }
