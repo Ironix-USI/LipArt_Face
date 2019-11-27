@@ -18,6 +18,8 @@ import com.google.firebase.ml.vision.common.FirebaseVisionPoint;
 import com.mobile.lipart.common.GraphicOverlay;
 import com.mobile.lipart.common.GraphicOverlay.Graphic;
 import java.util.List;
+import android.graphics.BlurMaskFilter;
+import android.graphics.PorterDuff;
 
 /** Graphic instance for rendering face contours graphic overlay view. */
 public class FaceContourGraphic extends Graphic {
@@ -40,10 +42,23 @@ public class FaceContourGraphic extends Graphic {
     facePositionPaint.setColor(selectedColor);
 
     lipPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+//    int test = Color.parseColor("#99ff0000");
+//    int darken = ColorUtil.darken(test, 30);
+//    int light = ColorUtil.lighten(test, 30);
+//    int hue = ColorUtil.hue(test, 5);
+//    final int lipColor = ColorUtil.adjustAlpha(test, 0.3f);
+
+//    final int lipColor = ColorUtil.HSLToColor(ColorUtil.colorToHSL(test));
     final int lipColor = Color.parseColor("#00B846");
-//    lipPaint.setAlpha(0);
-//    lipPaint.setColorFilter(new PorterDuffColorFilter(lipColor, PorterDuff.Mode.SRC_IN));
+    lipPaint.setStyle(Paint.Style.FILL);
     lipPaint.setColor(lipColor);
+    lipPaint.setAlpha(50);
+    lipPaint.setAntiAlias(true);
+    lipPaint.setMaskFilter(new BlurMaskFilter(15, BlurMaskFilter.Blur.NORMAL));
+
+//    ColorFilter filter = new PorterDuffColorFilter(test, PorterDuff.Mode.SRC_IN);
+//    lipPaint.setColorFilter(filter);
+
 
   }
 
@@ -63,7 +78,7 @@ public class FaceContourGraphic extends Graphic {
     for (FirebaseVisionPoint point : contour.getPoints()) {
       float px = translateX(point.getX());
       float py = translateY(point.getY());
-      canvas.drawCircle(px, py, FACE_POSITION_RADIUS, facePositionPaint);
+//      canvas.drawCircle(px, py, FACE_POSITION_RADIUS, facePositionPaint);
     }
 
     List<FirebaseVisionPoint> upperLipBottomContour =
