@@ -41,4 +41,12 @@
         <item>@string/pref_entry_values_face_detector_performance_mode_accurate</item>
     </string-array>
 
+<!--    <attr name="primaryTextColor" format="reference"/>-->
+<!--    <attr name="buttonNormalColor" format="reference"/>-->
+<!--    <attr name="buttonHighlightColor" format="reference" />-->
+<!--    <attr name="buttonTextColor" format="reference" />-->
+<!--    <attr name="iconColor" format="reference" />-->
+<!--    <attr name="textViewStyle" format="reference" />-->
+<!--    <attr name="primaryButtonTheme" format="reference" />-->
+
 </resources>

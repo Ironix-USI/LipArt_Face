@@ -15,6 +15,7 @@ package com.mobile.lipart.common;
 
 import android.graphics.Bitmap;
 import android.media.Image;
+import android.widget.TextView;
 
 import java.nio.ByteBuffer;
 
@@ -22,10 +23,10 @@ import java.nio.ByteBuffer;
 public interface VisionImageProcessor {
 
   /** Processes the images with the underlying machine learning models. */
-  void process(ByteBuffer data, FrameMetadata frameMetadata, GraphicOverlay graphicOverlay);
+  void process(ByteBuffer data, FrameMetadata frameMetadata, GraphicOverlay graphicOverlay, TextView textView);
 
   /** Processes the bitmap images. */
-  void process(Bitmap bitmap, GraphicOverlay graphicOverlay);
+  void process(Bitmap bitmap, GraphicOverlay graphicOverlay, TextView textView);
 
   /** Stops the underlying machine learning model and release resources. */
   void stop();

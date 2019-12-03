@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.mobile.lipart.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_circle"
+        android:name="com.mobile.lipart.ui.circle.CircleFragment"
+        android:label="@string/title_circle"
+        tools:layout="@layout/fragment_circle" />
+
+    <fragment
+        android:id="@+id/navigation_snap"
+        android:name="com.mobile.lipart.ui.snap.SnapFragment"
+        android:label="@string/title_snap"
+        tools:layout="@layout/fragment_snap" />
+
+    <fragment
+        android:id="@+id/navigation_buy"
+        android:name="com.mobile.lipart.ui.buy.BuyFragment"
+        android:label="@string/title_buy"
+        tools:layout="@layout/fragment_buy" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.mobile.lipart.ui.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
+</navigation>

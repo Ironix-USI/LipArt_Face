@@ -28,6 +28,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -67,6 +68,7 @@ public final class LivePreviewActivity extends AppCompatActivity
     private CameraSourcePreview preview;
     private GraphicOverlay graphicOverlay;
     private String selectedModel = FACE_CONTOUR;
+    private TextView mTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,18 +84,19 @@ public final class LivePreviewActivity extends AppCompatActivity
         if (graphicOverlay == null) {
             Log.d(TAG, "graphicOverlay is null");
         }
+        mTextView = (TextView) findViewById(R.id.textView);
 
-        Spinner spinner = findViewById(R.id.spinner);
-        List<String> options = new ArrayList<>();
-        options.add(FACE_CONTOUR);
+//        Spinner spinner = findViewById(R.id.spinner);
+//        List<String> options = new ArrayList<>();
+//        options.add(FACE_CONTOUR);
         // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, R.layout.spinner_style,
-                options);
+//        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, R.layout.spinner_style,
+//                options);
         // Drop down layout style - list view with radio button
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // attaching data adapter to spinner
-        spinner.setAdapter(dataAdapter);
-        spinner.setOnItemSelectedListener(this);
+//        spinner.setAdapter(dataAdapter);
+//        spinner.setOnItemSelectedListener(this);
 
         if (allPermissionsGranted()) {
             createCameraSource(selectedModel);

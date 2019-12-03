@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.google.android.gms.common.images.Size;
 import com.mobile.lipart.common.preference.PreferenceUtils;
@@ -101,6 +102,8 @@ public class CameraSource {
   // developer wants to display a preview we must use a SurfaceHolder.  If the developer doesn't
   // want to display a preview we use a SurfaceTexture if we are running at least Honeycomb.
   private boolean usingSurfaceTexture;
+
+  private TextView textView;
 
   /**
    * Dedicated thread and associated runnable for calling into the detector with frames, as the
@@ -724,7 +727,7 @@ public class CameraSource {
                             .setRotation(rotation)
                             .setCameraFacing(facing)
                             .build(),
-                    graphicOverlay);
+                    graphicOverlay, textView);
           }
         } catch (Exception t) {
           Log.e(TAG, "Exception thrown from receiver.", t);

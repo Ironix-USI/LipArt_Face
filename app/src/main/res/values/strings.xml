@@ -90,5 +90,13 @@
     <string name="pref_key_live_preview_face_detection_min_face_size" translatable="false">lpfdmfs</string>
     <string name="pref_dialog_message_face_detector_min_face_size">Proportion of the head width to the image width, and the valid value range is [0.0, 1.0]</string>
     <string name="pref_toast_invalid_min_face_size">Minimum face size must be a float value and in the range [0.0, 1.0]</string>
+    <string name="take_photo">Take photo</string>
+    <string name="todo">TODO</string>
+
+    <string name="title_home">Home</string>
+    <string name="title_circle">Circle</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_buy">Buy</string>
+    <string name="title_snap">Try</string>
 
 </resources>

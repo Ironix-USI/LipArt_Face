@@ -6,6 +6,9 @@
 <!--    <uses-permission android:name="android.permission.INTERNET"/>-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ChooserActivity">
+<!--        <activity android:name=".ChooserActivity">-->
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,8 +26,12 @@
         </activity>
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"
-            android:value="face" />
+            android:value="face, label" />
         <activity android:name=".LivePreviewActivity" android:exported="true">
+        </activity>
+        <activity android:name=".StillImageActivity" android:exported="true">
+        </activity>
+        <activity android:name=".ChooserActivity" android:exported="true">
         </activity>
         <activity
             android:name=".common.preference.SettingsActivity"

@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.ml.vision.FirebaseVision;
@@ -57,7 +58,8 @@ public class FaceContourDetectorProcessor extends VisionProcessorBase<List<Fireb
             @Nullable Bitmap originalCameraImage,
             @NonNull List<FirebaseVisionFace> faces,
             @NonNull FrameMetadata frameMetadata,
-            @NonNull GraphicOverlay graphicOverlay) {
+            @NonNull GraphicOverlay graphicOverlay,
+            @NonNull TextView textView) {
         graphicOverlay.clear();
         if (originalCameraImage != null) {
             CameraImageGraphic imageGraphic = new CameraImageGraphic(graphicOverlay, originalCameraImage);
