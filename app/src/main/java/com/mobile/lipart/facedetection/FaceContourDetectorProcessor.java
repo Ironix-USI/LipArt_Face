@@ -3,7 +3,10 @@ package com.mobile.lipart.facedetection;
 import android.graphics.Bitmap;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.Task;
@@ -59,7 +62,8 @@ public class FaceContourDetectorProcessor extends VisionProcessorBase<List<Fireb
             @NonNull List<FirebaseVisionFace> faces,
             @NonNull FrameMetadata frameMetadata,
             @NonNull GraphicOverlay graphicOverlay,
-            @NonNull TextView textView) {
+            @NonNull TextView textView,
+            @NonNull ImageView drawable) {
         graphicOverlay.clear();
         if (originalCameraImage != null) {
             CameraImageGraphic imageGraphic = new CameraImageGraphic(graphicOverlay, originalCameraImage);

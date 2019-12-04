@@ -14,6 +14,8 @@
 package com.mobile.lipart;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.GuardedBy;
@@ -34,7 +36,7 @@ import java.nio.ByteBuffer;
 
 /**
  * Abstract base class for ML Kit frame processors. Subclasses need to implement {@link
- * #onSuccess(Bitmap, Object, FrameMetadata, GraphicOverlay, TextView)} to define what they want to with
+ * #onSuccess(Bitmap, Object, FrameMetadata, GraphicOverlay, TextView, ImageView)} to define what they want to with
  * the detection results and {@link #detectInImage(FirebaseVisionImage)} to specify the detector
  * object.
  *
@@ -63,35 +65,35 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
     @Override
     public synchronized void process(
             ByteBuffer data, final FrameMetadata frameMetadata, final GraphicOverlay
-            graphicOverlay, final TextView textView) {
+            graphicOverlay, final TextView textView, final ImageView drawable) {
         latestImage = data;
         latestImageMetaData = frameMetadata;
         if (processingImage == null && processingMetaData == null) {
-            processLatestImage(graphicOverlay, textView);
+            processLatestImage(graphicOverlay, textView, drawable);
         }
     }
 
     // Bitmap version
     @Override
     public void process(Bitmap bitmap, final GraphicOverlay
-            graphicOverlay, final TextView textView) {
-        detectInVisionImage(null /* bitmap */, FirebaseVisionImage.fromBitmap(bitmap), null,
-                graphicOverlay, textView);
+            graphicOverlay, final TextView textView, final ImageView drawable) {
+        detectInVisionImage(bitmap, FirebaseVisionImage.fromBitmap(bitmap), null,
+                graphicOverlay, textView, drawable);
     }
 
-    private synchronized void processLatestImage(final GraphicOverlay graphicOverlay, final TextView textView) {
+    private synchronized void processLatestImage(final GraphicOverlay graphicOverlay, final TextView textView, final ImageView drawable) {
         processingImage = latestImage;
         processingMetaData = latestImageMetaData;
         latestImage = null;
         latestImageMetaData = null;
         if (processingImage != null && processingMetaData != null) {
-            processImage(processingImage, processingMetaData, graphicOverlay, textView);
+            processImage(processingImage, processingMetaData, graphicOverlay, textView, drawable);
         }
     }
 
     private void processImage(
             ByteBuffer data, final FrameMetadata frameMetadata,
-            final GraphicOverlay graphicOverlay, final TextView textView) {
+            final GraphicOverlay graphicOverlay, final TextView textView, final ImageView drawable) {
         FirebaseVisionImageMetadata metadata =
                 new FirebaseVisionImageMetadata.Builder()
                         .setFormat(FirebaseVisionImageMetadata.IMAGE_FORMAT_NV21)
@@ -103,7 +105,7 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
         Bitmap bitmap = BitmapUtils.getBitmap(data, frameMetadata);
         detectInVisionImage(
                 bitmap, FirebaseVisionImage.fromByteBuffer(data, metadata), frameMetadata,
-                graphicOverlay, textView);
+                graphicOverlay, textView, drawable);
     }
 
     private void detectInVisionImage(
@@ -111,7 +113,8 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
             FirebaseVisionImage image,
             final FrameMetadata metadata,
             final GraphicOverlay graphicOverlay,
-            final TextView textView) {
+            final TextView textView,
+            final ImageView drawable) {
         detectInImage(image)
                 .addOnSuccessListener(
                         new OnSuccessListener<T>() {
@@ -120,8 +123,9 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
                                 VisionProcessorBase.this.onSuccess(originalCameraImage, results,
                                         metadata,
                                         graphicOverlay,
-                                        textView);
-                                processLatestImage(graphicOverlay, textView);
+                                        textView,
+                                        drawable);
+                                processLatestImage(graphicOverlay, textView, drawable);
                             }
                         })
                 .addOnFailureListener(
@@ -150,7 +154,8 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
             @NonNull T results,
             @NonNull FrameMetadata frameMetadata,
             @NonNull GraphicOverlay graphicOverlay,
-            @NonNull TextView textView);
+            @NonNull TextView textView,
+            @NonNull ImageView drawable);
 
     protected abstract void onFailure(@NonNull Exception e);
 }

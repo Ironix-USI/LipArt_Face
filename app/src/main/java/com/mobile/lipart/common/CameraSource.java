@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
+import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import androidx.annotation.Nullable;
@@ -28,6 +29,7 @@ import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.images.Size;
@@ -104,6 +106,7 @@ public class CameraSource {
   private boolean usingSurfaceTexture;
 
   private TextView textView;
+  private ImageView drawable;
 
   /**
    * Dedicated thread and associated runnable for calling into the detector with frames, as the
@@ -727,7 +730,7 @@ public class CameraSource {
                             .setRotation(rotation)
                             .setCameraFacing(facing)
                             .build(),
-                    graphicOverlay, textView);
+                    graphicOverlay, textView, drawable);
           }
         } catch (Exception t) {
           Log.e(TAG, "Exception thrown from receiver.", t);

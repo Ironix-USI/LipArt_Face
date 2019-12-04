@@ -17,6 +17,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -85,6 +86,7 @@ public final class StillImageActivity extends AppCompatActivity {
   private VisionImageProcessor imageProcessor;
   private TextView textView;
   private HorizontalScrollView horizontalScrollView;
+  private ImageView drawable;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -131,8 +133,8 @@ public final class StillImageActivity extends AppCompatActivity {
     }
 
     textView = findViewById(R.id.textView);
-    horizontalScrollView = findViewById(R.id.horizontalScrollView);
-
+//    horizontalScrollView = findViewById(R.id.horizontalScrollView);
+    drawable = findViewById(R.id.colorCircle);
 
 //    populateFeatureSelector();
 //    populateSizeSelector();
@@ -316,7 +318,7 @@ public final class StillImageActivity extends AppCompatActivity {
       preview.setImageBitmap(resizedBitmap);
       bitmapForDetection = resizedBitmap;
 
-      imageProcessor.process(bitmapForDetection, graphicOverlay, textView);
+      imageProcessor.process(bitmapForDetection, graphicOverlay, textView, drawable);
     } catch (IOException e) {
       Log.e(TAG, "Error retrieving saved image");
     }
