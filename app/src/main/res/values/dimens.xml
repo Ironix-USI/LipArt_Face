@@ -7,4 +7,12 @@
     <dimen name="message_author_icon_size">40dp</dimen>
     <dimen name="margin_message_text_icon">8dp</dimen>
     <dimen name="text">20sp</dimen>
+
+
+    <dimen name="icon_top_margin">24dp</dimen>
+    <dimen name="icon_bottom_margin">24dp</dimen>
+    <dimen name="title_bottom_margin">16dp</dimen>
+    <dimen name="field_width_standard">160dp</dimen>
+
+    <dimen name="button_horizontal_margin">8dp</dimen>
 </resources>
