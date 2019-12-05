@@ -18,8 +18,6 @@ package com.mobile.lipart;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import androidx.fragment.app.Fragment;
@@ -27,11 +25,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.auth.FirebaseAuth;
-import com.mobile.lipart.R;
 import com.mobile.lipart.ui.post.MyPostsFragment;
 import com.mobile.lipart.ui.post.MyTopPostsFragment;
-import com.mobile.lipart.ui.post.RecentPostsFragment;
 
 public class CircleActivity extends BaseActivity {
 
@@ -49,14 +44,14 @@ public class CircleActivity extends BaseActivity {
         mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager(),
                 FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
             private final Fragment[] mFragments = new Fragment[] {
-                    new RecentPostsFragment(),
-                    new MyPostsFragment(),
+//                    new RecentPostsFragment(),
                     new MyTopPostsFragment(),
+                    new MyPostsFragment(),
             };
             private final String[] mFragmentNames = new String[] {
-                    getString(R.string.heading_recent),
+//                    getString(R.string.heading_recent),
+                    getString(R.string.heading_my_top_posts),
                     getString(R.string.heading_my_posts),
-                    getString(R.string.heading_my_top_posts)
             };
             @Override
             public Fragment getItem(int position) {
@@ -86,23 +81,23 @@ public class CircleActivity extends BaseActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int i = item.getItemId();
-        if (i == R.id.action_logout) {
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int i = item.getItemId();
+//        if (i == R.id.action_logout) {
+//            FirebaseAuth.getInstance().signOut();
+//            startActivity(new Intent(this, MainActivity.class));
+//            finish();
+//            return true;
+//        } else {
+//            return super.onOptionsItemSelected(item);
+//        }
+//    }
 
 }

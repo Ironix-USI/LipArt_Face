@@ -3,6 +3,7 @@ package com.mobile.lipart.common;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+
 import com.mobile.lipart.common.GraphicOverlay.Graphic;
 
 /** Draw camera image to background. */

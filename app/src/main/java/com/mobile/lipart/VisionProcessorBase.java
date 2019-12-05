@@ -14,7 +14,6 @@
 package com.mobile.lipart;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 import android.widget.TextView;
 

@@ -44,6 +44,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:19.2.0'
     implementation 'com.firebaseui:firebase-ui-database:6.0.2'
     implementation 'androidx.arch.core:core-runtime:2.1.0'
+    implementation 'com.google.firebase:firebase-core:17.2.1'
+//    implementation 'com.google.firebase:firebase-storage:19.1.0'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

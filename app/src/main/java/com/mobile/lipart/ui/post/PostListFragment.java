@@ -21,8 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
-import com.mobile.lipart.R;
 import com.mobile.lipart.PostDetailActivity;
+import com.mobile.lipart.R;
 import com.mobile.lipart.model.Post;
 import com.mobile.lipart.viewholder.PostViewHolder;
 

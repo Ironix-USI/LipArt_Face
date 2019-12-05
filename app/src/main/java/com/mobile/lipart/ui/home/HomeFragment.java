@@ -6,13 +6,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.mobile.lipart.R;
+import com.mobile.lipart.ui.post.RecentPostsFragment;
 
 public class HomeFragment extends Fragment {
 
@@ -30,6 +32,13 @@ public class HomeFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+        Fragment someFragment = new RecentPostsFragment();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_home, someFragment ); // give your fragment container id in first parameter
+        transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
+        transaction.commit();
+
         return root;
     }
 }

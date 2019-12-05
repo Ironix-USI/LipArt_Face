@@ -1,25 +1,18 @@
 package com.mobile.lipart.facedetection;
 
-import android.graphics.BlendMode;
+import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.RectF;
 
+import com.google.firebase.ml.vision.common.FirebaseVisionPoint;
 import com.google.firebase.ml.vision.face.FirebaseVisionFace;
 import com.google.firebase.ml.vision.face.FirebaseVisionFaceContour;
-import com.google.firebase.ml.vision.common.FirebaseVisionPoint;
 import com.mobile.lipart.common.GraphicOverlay;
 import com.mobile.lipart.common.GraphicOverlay.Graphic;
+
 import java.util.List;
-import android.graphics.BlurMaskFilter;
-import android.graphics.PorterDuff;
 
 /** Graphic instance for rendering face contours graphic overlay view. */
 public class FaceContourGraphic extends Graphic {

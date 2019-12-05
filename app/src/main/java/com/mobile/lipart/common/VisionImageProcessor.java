@@ -14,9 +14,6 @@
 package com.mobile.lipart.common;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.DrawableWrapper;
-import android.media.Image;
 import android.widget.ImageView;
 import android.widget.TextView;
 

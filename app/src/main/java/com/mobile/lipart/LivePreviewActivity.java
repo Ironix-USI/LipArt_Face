@@ -17,7 +17,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -25,9 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,14 +35,12 @@ import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.common.annotation.KeepName;
-import com.google.firebase.ml.vision.objects.FirebaseVisionObjectDetectorOptions;
-import com.mobile.lipart.R;
 import com.mobile.lipart.common.CameraSource;
 import com.mobile.lipart.common.CameraSourcePreview;
 import com.mobile.lipart.common.GraphicOverlay;
-import com.mobile.lipart.facedetection.FaceContourDetectorProcessor;
 import com.mobile.lipart.common.preference.SettingsActivity;
 import com.mobile.lipart.common.preference.SettingsActivity.LaunchSource;
+import com.mobile.lipart.facedetection.FaceContourDetectorProcessor;
 
 import java.io.IOException;
 import java.util.ArrayList;
