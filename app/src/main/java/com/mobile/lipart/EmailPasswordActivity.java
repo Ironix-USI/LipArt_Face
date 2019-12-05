@@ -32,7 +32,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.mobile.lipart.R;
+import com.google.firebase.database.FirebaseDatabase;
+import com.mobile.lipart.model.User;
 
 public class EmailPasswordActivity extends BaseActivity implements
         View.OnClickListener {
@@ -47,6 +50,7 @@ public class EmailPasswordActivity extends BaseActivity implements
     // [START declare_auth]
     private FirebaseAuth mAuth;
     // [END declare_auth]
+    private DatabaseReference mDatabase;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,6 +74,7 @@ public class EmailPasswordActivity extends BaseActivity implements
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         // [END initialize_auth]
+        mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
     // [START on_start_check_user]
@@ -78,6 +83,9 @@ public class EmailPasswordActivity extends BaseActivity implements
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            onAuthSuccess(currentUser);
+        }
         updateUI(currentUser);
     }
     // [END on_start_check_user]
@@ -99,6 +107,7 @@ public class EmailPasswordActivity extends BaseActivity implements
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            onAuthSuccess(user);
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -133,6 +142,7 @@ public class EmailPasswordActivity extends BaseActivity implements
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            onAuthSuccess(user);
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -238,6 +248,33 @@ public class EmailPasswordActivity extends BaseActivity implements
     private void enter() {
         startActivity(new Intent(EmailPasswordActivity.this, MainActivity.class));
     }
+
+    private void onAuthSuccess(FirebaseUser user) {
+        String username = usernameFromEmail(user.getEmail());
+
+        // Write new user
+        writeNewUser(user.getUid(), username, user.getEmail());
+
+//        // Go to MainActivity
+//        startActivity(new Intent(SignInActivity.this, MainActivity.class));
+//        finish();
+    }
+
+    private String usernameFromEmail(String email) {
+        if (email.contains("@")) {
+            return email.split("@")[0];
+        } else {
+            return email;
+        }
+    }
+
+    // [START basic_write]
+    private void writeNewUser(String userId, String name, String email) {
+        User user = new User(name, email);
+
+        mDatabase.child("users").child(userId).setValue(user);
+    }
+    // [END basic_write]
 
     @Override
     public void onClick(View v) {

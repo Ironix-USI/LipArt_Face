@@ -1,5 +1,6 @@
 package com.mobile.lipart.ui.circle;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.mobile.lipart.CircleActivity;
 import com.mobile.lipart.R;
 
 public class CircleFragment extends Fragment {
@@ -30,6 +32,7 @@ public class CircleFragment extends Fragment {
                 textView.setText(s);
             }
         });
+        startActivity(new Intent(getActivity(), CircleActivity.class));
         return root;
     }
 }

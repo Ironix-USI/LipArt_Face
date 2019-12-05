@@ -8,6 +8,7 @@ import android.view.inputmethod.InputMethodManager;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.mobile.lipart.R;
 
 public class BaseActivity extends AppCompatActivity {
@@ -36,6 +37,10 @@ public class BaseActivity extends AppCompatActivity {
         if (imm != null) {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    public String getUid() {
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
     @Override
