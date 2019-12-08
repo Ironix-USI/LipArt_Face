@@ -3,7 +3,7 @@
     package="com.mobile.lipart">
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-feature android:name="android.hardware.camera" />
@@ -16,8 +16,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<!--        <activity android:name=".ChooserActivity">-->
-<!--        <activity android:name=".MainActivity">-->
+        <activity
+            android:name=".ui.buy.BuyActivity"
+            android:label="@string/title_activity_buy"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <!-- <activity android:name=".ChooserActivity"> -->
+        <!-- <activity android:name=".MainActivity"> -->
         <activity android:name=".EmailPasswordActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,21 +29,35 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"
             android:value="face, label" />
-        <activity android:name=".LivePreviewActivity" android:exported="true"></activity>
-        <activity android:name=".StillImageActivity" android:exported="true"></activity>
-        <activity android:name=".ChooserActivity" android:exported="true"></activity>
-        <activity android:name=".MainActivity" android:exported="true"></activity>
+
+        <activity
+            android:name=".LivePreviewActivity"
+            android:exported="true" />
+        <activity
+            android:name=".StillImageActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ChooserActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
         <activity
             android:name=".common.preference.SettingsActivity"
-            android:exported="false"/>
-
-        <activity android:name=".CircleActivity" android:exported="true"></activity>
-        <activity android:name=".NewPostActivity" android:exported="true"></activity>
-        <activity android:name=".PostDetailActivity" android:exported="true"></activity>
-
+            android:exported="false" />
+        <activity
+            android:name=".CircleActivity"
+            android:exported="true" />
+        <activity
+            android:name=".NewPostActivity"
+            android:exported="true" />
+        <activity
+            android:name=".PostDetailActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

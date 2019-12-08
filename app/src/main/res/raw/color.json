@@ -1,126 +1,130 @@
 {
-    "brands": [{
-        "name": "Yves Saint Laurent",
-        "series": [{
-            "name": "ROUGE PUR COUTURE",
-            "link": "https://www.yslbeautyus.com/makeup/lips/lipsticks/rouge-pur-couture-lipstick/194YSL.html",
-            "lipsticks": [
+    "brands": [
+        {
+            "name": "Yves Saint Laurent",
+            "series": [
                 {
-                    "id": "19",
-                    "color": "#B13C79",
-                    "name": "Le Fuchsia"
-                },
-                {
-                    "id": "13",
-                    "color": "#BB1813",
-                    "name": "Le Orange"
-                },
-                {
-                    "id": "52",
-                    "color": "#EA4E59",
-                    "name": "Rouge Rose"
-                },
-                {
-                    "id": "01",
-                    "color": "#B8122B",
-                    "name": "Le Rouge"
-                },
-                {
-                    "id": "17",
-                    "color": "#F75E70",
-                    "name": "Rose Dahlia"
-                },
-                {
-                    "id": "07",
-                    "color": "#CB2276",
-                    "name": "Le Fuchsia"
-                },
-                {
-                    "id": "09",
-                    "color": "#C27482",
-                    "name": "Rose Stiletto"
-                },
-                {
-                    "id": "22",
-                    "color": "#E86E9F",
-                    "name": "Rose Celebration"
-                },
-                {
-                    "id": "23",
-                    "color": "#DE6F5C",
-                    "name": "Coral Poetique"
-                },
-                {
-                    "id": "26",
-                    "color": "#CC6D84",
-                    "name": "Rose Libertin"
-                },
-                {
-                    "id": "36",
-                    "color": "#ED695D",
-                    "name": "Corail Legende"
-                },
-                {
-                    "id": "49",
-                    "color": "#DC4D8D",
-                    "name": "Rose Tropical"
-                },
-                {
-                    "id": "51",
-                    "color": "#FA6C55",
-                    "name": "Corail Urbain"
-                },
-                {
-                    "id": "56",
-                    "color": "#D9100E",
-                    "name": "Orange Indie"
-                },
-                {
-                    "id": "59",
-                    "color": "#B96463",
-                    "name": "Melon Dor"
-                },
-                {
-                    "id": "208",
-                    "color": "#D60846",
-                    "name": "Fuchsia Fetiche"
-                },
-                {
-                    "id": "27",
-                    "color": "#D24379",
-                    "name": "Fuchsia Innocent"
-                },
-                {
-                    "id": "50",
-                    "color": "#DC2923",
-                    "name": "Rouge Neon"
-                },
-                {
-                    "id": "57",
-                    "color": "#C7153D",
-                    "name": "Pink Rhapsody"
-                },
-                {
-                    "id": "58",
-                    "color": "#B25D84",
-                    "name": "Mauve Nihiliste"
-                },
-                {
-                    "id": "72",
-                    "color": "#9A1B2F",
-                    "name": "Rouge Vinyle"
-                },
-                {
-                    "id": "73",
-                    "color": "#CF0410",
-                    "name": "Rhythm Red"
-                },
-                {
-                    "id": "74",
-                    "color": "#E0291B",
-                    "name": "Orange Electro"
+                    "name": "ROUGE PUR COUTURE",
+                    "link": "https://www.yslbeautyus.com/makeup/lips/lipsticks/rouge-pur-couture-lipstick/194YSL.html",
+                    "lipsticks": [
+                        {
+                            "id": "19",
+                            "color": "#B13C79",
+                            "name": "Le Fuchsia"
+                        },
+                        {
+                            "id": "13",
+                            "color": "#BB1813",
+                            "name": "Le Orange"
+                        },
+                        {
+                            "id": "52",
+                            "color": "#EA4E59",
+                            "name": "Rouge Rose"
+                        },
+                        {
+                            "id": "01",
+                            "color": "#B8122B",
+                            "name": "Le Rouge"
+                        },
+                        {
+                            "id": "17",
+                            "color": "#F75E70",
+                            "name": "Rose Dahlia"
+                        },
+                        {
+                            "id": "07",
+                            "color": "#CB2276",
+                            "name": "Le Fuchsia"
+                        },
+                        {
+                            "id": "09",
+                            "color": "#C27482",
+                            "name": "Rose Stiletto"
+                        },
+                        {
+                            "id": "22",
+                            "color": "#E86E9F",
+                            "name": "Rose Celebration"
+                        },
+                        {
+                            "id": "23",
+                            "color": "#DE6F5C",
+                            "name": "Coral Poetique"
+                        },
+                        {
+                            "id": "26",
+                            "color": "#CC6D84",
+                            "name": "Rose Libertin"
+                        },
+                        {
+                            "id": "36",
+                            "color": "#ED695D",
+                            "name": "Corail Legende"
+                        },
+                        {
+                            "id": "49",
+                            "color": "#DC4D8D",
+                            "name": "Rose Tropical"
+                        },
+                        {
+                            "id": "51",
+                            "color": "#FA6C55",
+                            "name": "Corail Urbain"
+                        },
+                        {
+                            "id": "56",
+                            "color": "#D9100E",
+                            "name": "Orange Indie"
+                        },
+                        {
+                            "id": "59",
+                            "color": "#B96463",
+                            "name": "Melon Dor"
+                        },
+                        {
+                            "id": "208",
+                            "color": "#D60846",
+                            "name": "Fuchsia Fetiche"
+                        },
+                        {
+                            "id": "27",
+                            "color": "#D24379",
+                            "name": "Fuchsia Innocent"
+                        },
+                        {
+                            "id": "50",
+                            "color": "#DC2923",
+                            "name": "Rouge Neon"
+                        },
+                        {
+                            "id": "57",
+                            "color": "#C7153D",
+                            "name": "Pink Rhapsody"
+                        },
+                        {
+                            "id": "58",
+                            "color": "#B25D84",
+                            "name": "Mauve Nihiliste"
+                        },
+                        {
+                            "id": "72",
+                            "color": "#9A1B2F",
+                            "name": "Rouge Vinyle"
+                        },
+                        {
+                            "id": "73",
+                            "color": "#CF0410",
+                            "name": "Rhythm Red"
+                        },
+                        {
+                            "id": "74",
+                            "color": "#E0291B",
+                            "name": "Orange Electro"
+                        }
+                    ]
                 }
             ]
         }
-    }
+    ]
 }
