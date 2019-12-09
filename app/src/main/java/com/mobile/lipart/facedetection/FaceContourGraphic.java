@@ -42,7 +42,7 @@ public class FaceContourGraphic extends Graphic {
 //    final int lipColor = ColorUtil.adjustAlpha(test, 0.3f);
 
 //    final int lipColor = ColorUtil.HSLToColor(ColorUtil.colorToHSL(test));
-    final int lipColor = Color.parseColor("#00B846");
+    final int lipColor = Color.parseColor("#99ff0000");
     lipPaint.setStyle(Paint.Style.FILL);
     lipPaint.setColor(lipColor);
     lipPaint.setAlpha(50);
