@@ -26,16 +26,20 @@ import java.util.List;
 public class CloudLabelGraphic extends Graphic {
   private final Paint textPaint;
   private final GraphicOverlay overlay;
+  private final float x;
+  private final float y;
 
   private List<String> labels;
 
-  CloudLabelGraphic(GraphicOverlay overlay){//, List<String> labels) {
+  public CloudLabelGraphic(GraphicOverlay overlay, float x, float y){//, List<String> labels) {
     super(overlay);
     this.overlay = overlay;
 //    this.labels = labels;
     textPaint = new Paint();
     textPaint.setColor(Color.BLACK);
 //    textPaint.setTextSize(60.0f);
+    this.x = x;
+    this.y = y;
   }
 
   @Override
@@ -47,6 +51,6 @@ public class CloudLabelGraphic extends Graphic {
 //      canvas.drawText(label, x, y, textPaint);
 //      y = y - 62.0f;
 
-    canvas.drawCircle(overlay.getWidth()/2, overlay.getHeight()/8, 20, textPaint);
+    canvas.drawCircle(x, y, 20, textPaint);
   }
 }

@@ -17,6 +17,8 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -25,6 +27,7 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -35,9 +38,11 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MotionEventCompat;
 
 import com.google.android.gms.common.annotation.KeepName;
 import com.mobile.lipart.cloudimagelabeling.CloudImageLabelingProcessor;
+import com.mobile.lipart.cloudimagelabeling.CloudLabelGraphic;
 import com.mobile.lipart.common.GraphicOverlay;
 import com.mobile.lipart.common.VisionImageProcessor;
 import com.mobile.lipart.common.preference.SettingsActivity;
@@ -86,11 +91,12 @@ public final class StillImageActivity extends AppCompatActivity {
   private TextView textView;
   private HorizontalScrollView horizontalScrollView;
   private ImageView drawable;
+  private int status_bar;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
+    getSupportActionBar().hide();
     setContentView(R.layout.activity_still_image);
 
     getImageButton = findViewById(R.id.getImageButton);
@@ -152,6 +158,11 @@ public final class StillImageActivity extends AppCompatActivity {
       if (imageUri != null) {
         tryReloadAndDetectInImage();
       }
+    }
+
+    int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+    if (resourceId > 0) {
+      status_bar = getResources().getDimensionPixelSize(resourceId);
     }
   }
 
@@ -391,6 +402,34 @@ public final class StillImageActivity extends AppCompatActivity {
         break;
       default:
         throw new IllegalStateException("Unknown selectedMode: " + selectedMode);
+    }
+  }
+
+  @Override
+  public boolean onTouchEvent(MotionEvent event){
+
+    int action = MotionEventCompat.getActionMasked(event);
+
+    switch(action) {
+      case (MotionEvent.ACTION_DOWN) :
+      case (MotionEvent.ACTION_MOVE) :
+      case (MotionEvent.ACTION_UP) :
+
+        if (bitmapForDetection != null) {
+
+          int x = (int) (event.getX());
+          int y = (int) (event.getY() - status_bar);
+          graphicOverlay.add(new CloudLabelGraphic(graphicOverlay, x, y));
+          int pixel = bitmapForDetection.getPixel(x,y);
+          int r = Color.red(pixel);
+          int g = Color.blue(pixel);
+          int b = Color.green(pixel);
+          String hex = String.format("#%02X%02X%02X", r, g, b);
+          graphicOverlay.clear();
+          drawable.setColorFilter(Color.parseColor(hex), PorterDuff.Mode.SRC);
+        }
+      default :
+        return super.onTouchEvent(event);
     }
   }
 }

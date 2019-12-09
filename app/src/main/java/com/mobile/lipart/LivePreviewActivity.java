@@ -69,6 +69,7 @@ public final class LivePreviewActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_live_preview);
 
         preview = findViewById(R.id.firePreview);

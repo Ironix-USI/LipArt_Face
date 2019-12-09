@@ -85,9 +85,11 @@ public class CloudImageLabelingProcessor
 //        graphicOverlay.add(cloudLabelGraphic);
 //        graphicOverlay.postInvalidate();
             textView.setText("");
-            CloudLabelGraphic cloudLabelGraphic = new CloudLabelGraphic(graphicOverlay);
+            float default_x = graphicOverlay.getWidth() / 2;
+            float default_y = graphicOverlay.getHeight() / 8;
+            CloudLabelGraphic cloudLabelGraphic = new CloudLabelGraphic(graphicOverlay, default_x, default_y);
             graphicOverlay.add(cloudLabelGraphic);
-            int pixel = originalCameraImage.getPixel(graphicOverlay.getWidth() / 2, graphicOverlay.getHeight() / 8);
+            int pixel = originalCameraImage.getPixel((int) default_x, (int) default_y);
             int r = Color.red(pixel);
             int g = Color.blue(pixel);
             int b = Color.green(pixel);
