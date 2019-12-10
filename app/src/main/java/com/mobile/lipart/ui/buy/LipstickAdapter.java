@@ -1,6 +1,8 @@
 package com.mobile.lipart.ui.buy;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +66,6 @@ public class LipstickAdapter extends RecyclerView.Adapter<LipstickAdapter.Lipsti
             public TextView lipstickNameView;
             public ImageView lipstickColorView;
             public Button lipstickBuyButton;
-            public Button lipstickTryButton;
 
 
             public LipstickViewHolder(View itemView) {
@@ -74,16 +75,28 @@ public class LipstickAdapter extends RecyclerView.Adapter<LipstickAdapter.Lipsti
                 lipstickNameView = itemView.findViewById(R.id.lipstickBrand);
                 lipstickColorView = itemView.findViewById(R.id.lipstickColor);
                 lipstickBuyButton = itemView.findViewById(R.id.button_buy);
-                lipstickTryButton = itemView.findViewById(R.id.button_try);
+
             }
 
-            public void bindToLipstick(LipstickItem lipstick) {
+            public void bindToLipstick(final LipstickItem lipstick) {
                 lipstickBrandView.setText(lipstick.getBrandName());
                 lipstickNameView.setText(lipstick.getName());
                 lipstickColorView.setColorFilter(Color.parseColor(lipstick.getColor()));
                 lipstickBuyButton.setText("Buy");
-                lipstickTryButton.setText("Try");
+                lipstickBuyButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // TODO Auto-generated method stub
+                        String url = lipstick.getLink();
+
+
+                        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        i.setData(Uri.parse(url));
+                        v.getContext().startActivity(i);
+                    }
+                });
             }
+
         }
 
     @Override
