@@ -65,7 +65,6 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
         // Initialize Views
         mAuthorView = findViewById(R.id.postAuthor);
-//        mTitleView = findViewById(R.id.postTitle);
         mBodyView = findViewById(R.id.postBody);
         mCommentField = findViewById(R.id.fieldCommentText);
         mCommentButton = findViewById(R.id.buttonPostComment);

@@ -3,7 +3,6 @@ package com.mobile.lipart.facedetection;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,10 +13,10 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.face.FirebaseVisionFace;
 import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetector;
 import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions;
-import com.mobile.lipart.VisionProcessorBase;
 import com.mobile.lipart.common.CameraImageGraphic;
 import com.mobile.lipart.common.FrameMetadata;
 import com.mobile.lipart.common.GraphicOverlay;
+import com.mobile.lipart.common.VisionProcessorBase;
 
 import java.io.IOException;
 import java.util.List;
@@ -61,7 +60,6 @@ public class FaceContourDetectorProcessor extends VisionProcessorBase<List<Fireb
             @NonNull List<FirebaseVisionFace> faces,
             @NonNull FrameMetadata frameMetadata,
             @NonNull GraphicOverlay graphicOverlay,
-            @NonNull TextView textView,
             @NonNull ImageView drawable) {
         graphicOverlay.clear();
         if (originalCameraImage != null) {

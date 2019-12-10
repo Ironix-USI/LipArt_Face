@@ -27,7 +27,6 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
@@ -105,7 +104,6 @@ public class CameraSource {
   // want to display a preview we use a SurfaceTexture if we are running at least Honeycomb.
   private boolean usingSurfaceTexture;
 
-  private TextView textView;
   private ImageView drawable;
 
   /**
@@ -730,7 +728,7 @@ public class CameraSource {
                             .setRotation(rotation)
                             .setCameraFacing(facing)
                             .build(),
-                    graphicOverlay, textView, drawable);
+                    graphicOverlay, drawable);
           }
         } catch (Exception t) {
           Log.e(TAG, "Exception thrown from receiver.", t);

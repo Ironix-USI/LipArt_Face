@@ -31,32 +31,35 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MotionEventCompat;
 
 import com.google.android.gms.common.annotation.KeepName;
-import com.mobile.lipart.cloudimagelabeling.CloudImageLabelingProcessor;
-import com.mobile.lipart.cloudimagelabeling.CloudLabelGraphic;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.mobile.lipart.common.CloudLabelGraphic;
 import com.mobile.lipart.common.GraphicOverlay;
-import com.mobile.lipart.common.VisionImageProcessor;
 import com.mobile.lipart.common.preference.SettingsActivity;
 import com.mobile.lipart.common.preference.SettingsActivity.LaunchSource;
+import com.mobile.lipart.model.User;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /** Activity demonstrating different image detector features with a still image from camera. */
 @KeepName
-public final class StillImageActivity extends AppCompatActivity {
+public final class StillImageActivity extends BaseActivity {
 
   private static final String TAG = "StillImageActivity";
-
-  private static final String CLOUD_LABEL_DETECTION = "Cloud Label";
 
   private static final String SIZE_PREVIEW = "w:max"; // Available on-screen width.
   private static final String SIZE_1024_768 = "w:1024"; // ~1024*768 in a normal ratio
@@ -76,7 +79,6 @@ public final class StillImageActivity extends AppCompatActivity {
   private Button getImageButton;
   private ImageView preview;
   private GraphicOverlay graphicOverlay;
-  private String selectedMode = CLOUD_LABEL_DETECTION;
   private String selectedSize = SIZE_PREVIEW;
 
   boolean isLandScape;
@@ -87,11 +89,12 @@ public final class StillImageActivity extends AppCompatActivity {
   // Max height (portrait mode)
   private Integer imageMaxHeight;
   private Bitmap bitmapForDetection;
-  private VisionImageProcessor imageProcessor;
   private TextView textView;
-  private HorizontalScrollView horizontalScrollView;
   private ImageView drawable;
   private int status_bar;
+  private Button saveColorButton;
+  private String hex = "";
+  private DatabaseReference mDatabase;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -137,14 +140,7 @@ public final class StillImageActivity extends AppCompatActivity {
       Log.d(TAG, "graphicOverlay is null");
     }
 
-    textView = findViewById(R.id.textView);
-//    horizontalScrollView = findViewById(R.id.horizontalScrollView);
     drawable = findViewById(R.id.colorCircle);
-
-//    populateFeatureSelector();
-//    populateSizeSelector();
-
-    createImageProcessor();
 
     isLandScape =
         (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
@@ -164,13 +160,24 @@ public final class StillImageActivity extends AppCompatActivity {
     if (resourceId > 0) {
       status_bar = getResources().getDimensionPixelSize(resourceId);
     }
+
+    saveColorButton = findViewById(R.id.saveButton);
+    saveColorButton.setOnClickListener(
+            new OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                if (hex != null) {
+                  mDatabase = FirebaseDatabase.getInstance().getReference();
+                  saveColor();
+                }
+              }
+            });
   }
 
   @Override
   public void onResume() {
     super.onResume();
     Log.d(TAG, "onResume");
-    createImageProcessor();
     tryReloadAndDetectInImage();
   }
 
@@ -191,60 +198,6 @@ public final class StillImageActivity extends AppCompatActivity {
 
     return super.onOptionsItemSelected(item);
   }
-
-//  private void populateFeatureSelector() {
-//    Spinner featureSpinner = findViewById(R.id.featureSelector);
-//    List<String> options = new ArrayList<>();
-//    options.add(CLOUD_LABEL_DETECTION);
-//    // Creating adapter for featureSpinner
-//    ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, R.layout.spinner_style, options);
-//    // Drop down layout style - list view with radio button
-//    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//    // attaching data adapter to spinner
-//    featureSpinner.setAdapter(dataAdapter);
-//    featureSpinner.setOnItemSelectedListener(
-//        new OnItemSelectedListener() {
-//
-//          @Override
-//          public void onItemSelected(
-//                  AdapterView<?> parentView, View selectedItemView, int pos, long id) {
-//            selectedMode = parentView.getItemAtPosition(pos).toString();
-//            createImageProcessor();
-//            tryReloadAndDetectInImage();
-//          }
-//
-//          @Override
-//          public void onNothingSelected(AdapterView<?> arg0) {}
-//        });
-//  }
-
-//  private void populateSizeSelector() {
-//    Spinner sizeSpinner = findViewById(R.id.sizeSelector);
-//    List<String> options = new ArrayList<>();
-//    options.add(SIZE_PREVIEW);
-//    options.add(SIZE_1024_768);
-//    options.add(SIZE_640_480);
-//
-//    // Creating adapter for featureSpinner
-//    ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, R.layout.spinner_style, options);
-//    // Drop down layout style - list view with radio button
-//    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//    // attaching data adapter to spinner
-//    sizeSpinner.setAdapter(dataAdapter);
-//    sizeSpinner.setOnItemSelectedListener(
-//        new OnItemSelectedListener() {
-//
-//          @Override
-//          public void onItemSelected(
-//                  AdapterView<?> parentView, View selectedItemView, int pos, long id) {
-//            selectedSize = parentView.getItemAtPosition(pos).toString();
-//            tryReloadAndDetectInImage();
-//          }
-//
-//          @Override
-//          public void onNothingSelected(AdapterView<?> arg0) {}
-//        });
-//  }
 
   @Override
   public void onSaveInstanceState(Bundle outState) {
@@ -327,8 +280,6 @@ public final class StillImageActivity extends AppCompatActivity {
 
       preview.setImageBitmap(resizedBitmap);
       bitmapForDetection = resizedBitmap;
-
-      imageProcessor.process(bitmapForDetection, graphicOverlay, textView, drawable);
     } catch (IOException e) {
       Log.e(TAG, "Error retrieving saved image");
     }
@@ -395,16 +346,6 @@ public final class StillImageActivity extends AppCompatActivity {
     return new Pair<>(targetWidth, targetHeight);
   }
 
-  private void createImageProcessor() {
-    switch (selectedMode) {
-      case CLOUD_LABEL_DETECTION:
-        imageProcessor = new CloudImageLabelingProcessor();
-        break;
-      default:
-        throw new IllegalStateException("Unknown selectedMode: " + selectedMode);
-    }
-  }
-
   @Override
   public boolean onTouchEvent(MotionEvent event){
 
@@ -424,7 +365,7 @@ public final class StillImageActivity extends AppCompatActivity {
           int r = Color.red(pixel);
           int g = Color.blue(pixel);
           int b = Color.green(pixel);
-          String hex = String.format("#%02X%02X%02X", r, g, b);
+          hex = String.format("#%02X%02X%02X", r, g, b);
           graphicOverlay.clear();
           drawable.setColorFilter(Color.parseColor(hex), PorterDuff.Mode.SRC);
         }
@@ -432,4 +373,51 @@ public final class StillImageActivity extends AppCompatActivity {
         return super.onTouchEvent(event);
     }
   }
+
+  private void saveColor() {
+    final String userId = getUid();
+    mDatabase.child("users").child(userId).addListenerForSingleValueEvent(
+            new ValueEventListener() {
+              @Override
+              public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get user value
+                User user = dataSnapshot.getValue(User.class);
+
+                // [START_EXCLUDE]
+                if (user == null) {
+                  // User is null, error out
+                  Log.e(TAG, "User " + userId + " is unexpectedly null");
+                } else {
+                  // Write new post
+                  writeNewColor(userId);
+                }
+                // [END_EXCLUDE]
+              }
+
+              @Override
+              public void onCancelled(DatabaseError databaseError) {
+                Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+                // [START_EXCLUDE]
+                // [END_EXCLUDE]
+              }
+            });
+    // [END single_value_read]
+  }
+
+  // [START write_fan_out]
+  private void writeNewColor(String userId) {
+    // Create new post at /user-posts/$userid/$postid and at
+    // /posts/$postid simultaneously
+    String key = mDatabase.child("user-colors").push().getKey();
+    Map<String, Object> colorValues = new HashMap<>();
+    colorValues.put("color", hex);
+
+    Map<String, Object> childUpdates = new HashMap<>();
+    childUpdates.put("/user-colors/" + userId + "/" + key, colorValues);
+
+    mDatabase.updateChildren(childUpdates);
+    Toast.makeText(this, "Saved.",
+            Toast.LENGTH_SHORT).show();
+  }
+  // [END write_fan_out]
 }

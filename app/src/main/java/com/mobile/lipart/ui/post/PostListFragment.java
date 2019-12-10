@@ -24,7 +24,6 @@ import com.google.firebase.database.Transaction;
 import com.mobile.lipart.PostDetailActivity;
 import com.mobile.lipart.R;
 import com.mobile.lipart.model.Post;
-import com.mobile.lipart.viewholder.PostViewHolder;
 
 public abstract class PostListFragment extends Fragment {
 

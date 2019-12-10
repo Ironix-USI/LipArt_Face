@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -59,12 +60,10 @@ public class CircleActivity extends BaseActivity {
         mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager(),
                 FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
             private final Fragment[] mFragments = new Fragment[] {
-//                    new RecentPostsFragment(),
                     new MyTopPostsFragment(),
                     new MyPostsFragment(),
             };
             private final String[] mFragmentNames = new String[] {
-//                    getString(R.string.heading_recent),
                     getString(R.string.heading_my_top_posts),
                     getString(R.string.heading_my_posts),
             };
@@ -87,13 +86,6 @@ public class CircleActivity extends BaseActivity {
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        // Button launches NewPostActivity
-//        findViewById(R.id.fabNewPost).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(CircleActivity.this, NewPostActivity.class));
-//            }
-//        });
         findViewById(R.id.fabNewPost).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,24 +94,6 @@ public class CircleActivity extends BaseActivity {
         });
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int i = item.getItemId();
-//        if (i == R.id.action_logout) {
-//            FirebaseAuth.getInstance().signOut();
-//            startActivity(new Intent(this, MainActivity.class));
-//            finish();
-//            return true;
-//        } else {
-//            return super.onOptionsItemSelected(item);
-//        }
-//    }
     private void newPost() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -192,6 +166,8 @@ public class CircleActivity extends BaseActivity {
         childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
 
         mDatabase.updateChildren(childUpdates);
+        Toast.makeText(this, "Posted.",
+                Toast.LENGTH_SHORT).show();
     }
     // [END write_fan_out]
 }

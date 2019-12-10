@@ -1,4 +1,4 @@
-package com.mobile.lipart.viewholder;
+package com.mobile.lipart.ui.post;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -20,7 +20,6 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     public PostViewHolder(View itemView) {
         super(itemView);
 
-//        titleView = itemView.findViewById(R.id.postTitle);
         authorView = itemView.findViewById(R.id.postAuthor);
         starView = itemView.findViewById(R.id.star);
         numStarsView = itemView.findViewById(R.id.postNumStars);
@@ -28,7 +27,6 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindToPost(Post post, View.OnClickListener starClickListener) {
-//        titleView.setText(post.title);
         authorView.setText(post.author);
         numStarsView.setText(String.valueOf(post.starCount));
         bodyView.setText(post.body);

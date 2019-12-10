@@ -48,11 +48,6 @@ public class FaceContourGraphic extends Graphic {
     lipPaint.setAlpha(50);
     lipPaint.setAntiAlias(true);
     lipPaint.setMaskFilter(new BlurMaskFilter(15, BlurMaskFilter.Blur.NORMAL));
-
-//    ColorFilter filter = new PorterDuffColorFilter(test, PorterDuff.Mode.SRC_IN);
-//    lipPaint.setColorFilter(filter);
-
-
   }
 
   /** Draws the face annotations for position on the supplied canvas. */
@@ -63,16 +58,7 @@ public class FaceContourGraphic extends Graphic {
       return;
     }
 
-    // Draws a circle at the position of the detected face, with the face's track id below.
-//    float x = translateX(face.getBoundingBox().centerX());
-//    float y = translateY(face.getBoundingBox().centerY());
-
     FirebaseVisionFaceContour contour = face.getContour(FirebaseVisionFaceContour.ALL_POINTS);
-    for (FirebaseVisionPoint point : contour.getPoints()) {
-      float px = translateX(point.getX());
-      float py = translateY(point.getY());
-//      canvas.drawCircle(px, py, FACE_POSITION_RADIUS, facePositionPaint);
-    }
 
     List<FirebaseVisionPoint> upperLipBottomContour =
             face.getContour(FirebaseVisionFaceContour.UPPER_LIP_BOTTOM).getPoints();

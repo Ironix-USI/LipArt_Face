@@ -80,19 +80,6 @@ public final class LivePreviewActivity extends AppCompatActivity
         if (graphicOverlay == null) {
             Log.d(TAG, "graphicOverlay is null");
         }
-        mTextView = (TextView) findViewById(R.id.textView);
-
-//        Spinner spinner = findViewById(R.id.spinner);
-//        List<String> options = new ArrayList<>();
-//        options.add(FACE_CONTOUR);
-        // Creating adapter for spinner
-//        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, R.layout.spinner_style,
-//                options);
-        // Drop down layout style - list view with radio button
-//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // attaching data adapter to spinner
-//        spinner.setAdapter(dataAdapter);
-//        spinner.setOnItemSelectedListener(this);
 
         if (allPermissionsGranted()) {
             createCameraSource(selectedModel);

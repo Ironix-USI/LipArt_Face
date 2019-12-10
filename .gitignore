@@ -95,3 +95,6 @@ lint/tmp/
 app/app.iml
 app/gradle/wrapper/gradle-wrapper.properties
 app/local.properties
+app/src/main/java/com/mobile/lipart/.DS_Store
+app/src/main/java/com/mobile/lipart/.DS_Store
+app/src/main/java/com/mobile/lipart/common/.DS_Store
