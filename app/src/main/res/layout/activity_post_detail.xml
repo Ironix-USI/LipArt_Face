@@ -15,6 +15,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true" />
 
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:id="@+id/commentColor"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/circle_w"/>
     <include
         android:id="@+id/postTextLayout"
         layout="@layout/include_post_text"

@@ -39,15 +39,19 @@
         android:layout_marginStart="0dp"
         android:background="#000">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/getImageButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/take_photo" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/saveButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -58,11 +62,11 @@
     <FrameLayout
         android:id="@+id/controlPanel2"
         android:layout_width="match_parent"
-        android:layout_height="106dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="0dp"
-        android:layout_marginBottom="55dp"
+        android:layout_marginBottom="110dp"
         android:alpha="1.0">
 
         <ImageView
@@ -72,6 +76,27 @@
             android:layout_gravity="center_horizontal"
             android:contentDescription="TODO"
             android:src="@drawable/circle1" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/controlPane3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="62dp"
+        android:background="#000">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/shareButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="@string/share" />
 
     </FrameLayout>
 

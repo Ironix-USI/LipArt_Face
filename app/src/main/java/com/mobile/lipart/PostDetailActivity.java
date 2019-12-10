@@ -1,12 +1,14 @@
 package com.mobile.lipart;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,15 +42,16 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
     private CommentAdapter mAdapter;
 
     private TextView mAuthorView;
-    private TextView mTitleView;
     private TextView mBodyView;
     private EditText mCommentField;
     private MaterialButton mCommentButton;
     private RecyclerView mCommentsRecycler;
+    private ImageView mCommentColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_post_detail);
 
         // Get post key from intent
@@ -72,6 +75,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
         mCommentButton.setOnClickListener(this);
         mCommentsRecycler.setLayoutManager(new LinearLayoutManager(this));
+        mCommentColor = findViewById(R.id.commentColor);
 
     }
 
@@ -88,8 +92,14 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
                 Post post = dataSnapshot.getValue(Post.class);
                 // [START_EXCLUDE]
                 mAuthorView.setText(post.author);
-                mTitleView.setText(post.title);
                 mBodyView.setText(post.body);
+
+                if (post.color == null || post.color.equals("")) {
+                    mCommentColor.setColorFilter(Color.WHITE);
+                }
+                else {
+                    mCommentColor.setColorFilter(Color.parseColor(post.color));
+                }
                 // [END_EXCLUDE]
             }
 
@@ -147,8 +157,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
                         // Create new comment object
                         String commentText = mCommentField.getText().toString();
-                        String color = "";
-                        Comment comment = new Comment(uid, authorName, commentText, color);
+                        Comment comment = new Comment(uid, authorName, commentText);
 
                         // Push the comment, it will appear in the list
                         mCommentsReference.push().setValue(comment);

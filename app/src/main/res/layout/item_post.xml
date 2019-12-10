@@ -45,13 +45,24 @@
 
         </LinearLayout>
 
-        <include layout="@layout/include_post_text"
-            android:layout_width="wrap_content"
+        <include
+            layout="@layout/include_post_text"
+            android:layout_width="295dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_below="@+id/postAuthorLayout"
+            android:layout_alignParentLeft="true"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp" />
+
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:id="@+id/commentColor"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/circle_w"
+            android:layout_below="@id/starLayout"/>
 
     </RelativeLayout>
 
