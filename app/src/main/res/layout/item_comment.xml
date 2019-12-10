@@ -9,15 +9,16 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_centerVertical="true"
-        android:src="@drawable/ic_action_account_circle_40"/>
+        android:src="@drawable/ic_action_account_circle_40"
+        android:contentDescription="TODO" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:padding="5dp"
-        android:layout_toRightOf="@+id/commentPhoto">
+        android:layout_toEndOf="@+id/commentPhoto">
 
         <TextView
             android:id="@+id/commentAuthor"
@@ -31,8 +32,9 @@
             style="@style/TextAppearance.AppCompat.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/commentAuthor"
             tools:text="This is the comment text.."/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -107,7 +107,9 @@ public class CircleActivity extends BaseActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mText = input.getText().toString();
-                submitPost(mText, "");
+                if (!mText.equals("")) {
+                    submitPost(mText, "");
+                }
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

@@ -13,7 +13,9 @@
 // limitations under the License.
 package com.mobile.lipart;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -31,6 +33,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
@@ -49,6 +52,7 @@ import com.mobile.lipart.common.CloudLabelGraphic;
 import com.mobile.lipart.common.GraphicOverlay;
 import com.mobile.lipart.common.preference.SettingsActivity;
 import com.mobile.lipart.common.preference.SettingsActivity.LaunchSource;
+import com.mobile.lipart.model.Post;
 import com.mobile.lipart.model.User;
 
 import java.io.IOException;
@@ -95,6 +99,8 @@ public final class StillImageActivity extends BaseActivity {
   private Button saveColorButton;
   private String hex = "";
   private DatabaseReference mDatabase;
+  private Button shareButton;
+  private String mText = "";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -161,17 +167,27 @@ public final class StillImageActivity extends BaseActivity {
       status_bar = getResources().getDimensionPixelSize(resourceId);
     }
 
+    mDatabase = FirebaseDatabase.getInstance().getReference();
     saveColorButton = findViewById(R.id.saveButton);
     saveColorButton.setOnClickListener(
             new OnClickListener() {
               @Override
               public void onClick(View view) {
-                if (hex != null) {
-                  mDatabase = FirebaseDatabase.getInstance().getReference();
                   saveColor();
-                }
               }
             });
+
+    shareButton = findViewById(R.id.shareButton);
+    shareButton.setOnClickListener(
+            new OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                  sharePost();
+                }
+            });
+
+    saveColorButton.setVisibility(View.INVISIBLE);
+    shareButton.setVisibility(View.INVISIBLE);
   }
 
   @Override
@@ -280,6 +296,10 @@ public final class StillImageActivity extends BaseActivity {
 
       preview.setImageBitmap(resizedBitmap);
       bitmapForDetection = resizedBitmap;
+
+      saveColorButton.setVisibility(View.VISIBLE);
+      shareButton.setVisibility(View.VISIBLE);
+
     } catch (IOException e) {
       Log.e(TAG, "Error retrieving saved image");
     }
@@ -417,6 +437,82 @@ public final class StillImageActivity extends BaseActivity {
 
     mDatabase.updateChildren(childUpdates);
     Toast.makeText(this, "Saved.",
+            Toast.LENGTH_SHORT).show();
+  }
+  // [END write_fan_out]
+
+  private void sharePost() {
+    mDatabase = FirebaseDatabase.getInstance().getReference();
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+    // Set up the input
+    final EditText input = new EditText(this);
+    builder.setView(input);
+
+    // Set up the buttons
+    builder.setPositiveButton("Post", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        mText = input.getText().toString();
+        if (!mText.equals("")) {
+          submitPost(mText, hex);
+        }
+      }
+    });
+    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        dialog.dismiss();
+      }
+    });
+
+    builder.show();
+  }
+
+  private void submitPost(final String body, final String color) {
+    final String userId = getUid();
+    mDatabase.child("users").child(userId).addListenerForSingleValueEvent(
+            new ValueEventListener() {
+              @Override
+              public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get user value
+                User user = dataSnapshot.getValue(User.class);
+
+                // [START_EXCLUDE]
+                if (user == null) {
+                  // User is null, error out
+                  Log.e(TAG, "User " + userId + " is unexpectedly null");
+                } else {
+                  // Write new post
+                  writeNewPost(userId, user.username, body, color);
+                }
+                // [END_EXCLUDE]
+              }
+
+              @Override
+              public void onCancelled(DatabaseError databaseError) {
+                Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+                // [START_EXCLUDE]
+                // [END_EXCLUDE]
+              }
+            });
+    // [END single_value_read]
+  }
+
+  // [START write_fan_out]
+  private void writeNewPost(String userId, String username, String body, String color) {
+    // Create new post at /user-posts/$userid/$postid and at
+    // /posts/$postid simultaneously
+    String key = mDatabase.child("posts").push().getKey();
+    Post post = new Post(userId, username, body, color);
+    Map<String, Object> postValues = post.toMap();
+
+    Map<String, Object> childUpdates = new HashMap<>();
+    childUpdates.put("/posts/" + key, postValues);
+    childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
+
+    mDatabase.updateChildren(childUpdates);
+    Toast.makeText(this, "Posted.",
             Toast.LENGTH_SHORT).show();
   }
   // [END write_fan_out]
