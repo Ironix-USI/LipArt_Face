@@ -65,7 +65,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
         // Initialize Views
         mAuthorView = findViewById(R.id.postAuthor);
-        mTitleView = findViewById(R.id.postTitle);
+//        mTitleView = findViewById(R.id.postTitle);
         mBodyView = findViewById(R.id.postBody);
         mCommentField = findViewById(R.id.fieldCommentText);
         mCommentButton = findViewById(R.id.buttonPostComment);
@@ -148,7 +148,8 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
                         // Create new comment object
                         String commentText = mCommentField.getText().toString();
-                        Comment comment = new Comment(uid, authorName, commentText);
+                        String color = "";
+                        Comment comment = new Comment(uid, authorName, commentText, color);
 
                         // Push the comment, it will appear in the list
                         mCommentsReference.push().setValue(comment);

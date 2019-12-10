@@ -28,7 +28,6 @@ public class NewPostActivity extends BaseActivity {
     private DatabaseReference mDatabase;
     // [END declare_database_ref]
 
-    private EditText mTitleField;
     private EditText mBodyField;
     private FloatingActionButton mSubmitButton;
 
@@ -41,7 +40,6 @@ public class NewPostActivity extends BaseActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
 
-        mTitleField = findViewById(R.id.fieldTitle);
         mBodyField = findViewById(R.id.fieldBody);
         mSubmitButton = findViewById(R.id.fabSubmitPost);
 
@@ -54,15 +52,8 @@ public class NewPostActivity extends BaseActivity {
     }
 
     private void submitPost() {
-        final String title = mTitleField.getText().toString();
         final String body = mBodyField.getText().toString();
         final String color = "";
-
-        // Title is required
-        if (TextUtils.isEmpty(title)) {
-            mTitleField.setError(REQUIRED);
-            return;
-        }
 
         // Body is required
         if (TextUtils.isEmpty(body)) {
@@ -92,7 +83,7 @@ public class NewPostActivity extends BaseActivity {
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             // Write new post
-                            writeNewPost(userId, user.username, title, body, color);
+                            writeNewPost(userId, user.username, body, color);
                         }
 
                         // Finish this Activity, back to the stream
@@ -113,7 +104,6 @@ public class NewPostActivity extends BaseActivity {
     }
 
     private void setEditingEnabled(boolean enabled) {
-        mTitleField.setEnabled(enabled);
         mBodyField.setEnabled(enabled);
         if (enabled) {
             mSubmitButton.show();
@@ -123,11 +113,11 @@ public class NewPostActivity extends BaseActivity {
     }
 
     // [START write_fan_out]
-    private void writeNewPost(String userId, String username, String title, String body, String color) {
+    private void writeNewPost(String userId, String username, String body, String color) {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
         String key = mDatabase.child("posts").push().getKey();
-        Post post = new Post(userId, username, title, body, color);
+        Post post = new Post(userId, username, body, color);
         Map<String, Object> postValues = post.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();

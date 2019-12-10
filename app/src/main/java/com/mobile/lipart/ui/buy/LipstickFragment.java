@@ -1,44 +1,32 @@
 package com.mobile.lipart.ui.buy;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import com.mobile.lipart.R;
 import com.mobile.lipart.model.Brand;
 import com.mobile.lipart.model.Lipstick;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.mobile.lipart.model.LipstickItem;
+import com.mobile.lipart.model.LipstickSeries;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import com.google.gson.Gson;
-import com.mobile.lipart.model.LipstickItem;
-import com.mobile.lipart.model.LipstickSeries;
 
 
 public class LipstickFragment extends Fragment {

@@ -22,10 +22,9 @@ public class Post {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Post(String uid, String author, String title, String body, String color) {
+    public Post(String uid, String author, String body, String color) {
         this.uid = uid;
         this.author = author;
-        this.title = title;
         this.body = body;
         this.color = color;
     }
@@ -36,7 +35,6 @@ public class Post {
         HashMap<String, Object> result = new HashMap<>();
         result.put("uid", uid);
         result.put("author", author);
-        result.put("title", title);
         result.put("body", body);
         result.put("starCount", starCount);
         result.put("stars", stars);

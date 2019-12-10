@@ -2,7 +2,6 @@ package com.mobile.lipart.ui.buy;
 
 import android.os.Bundle;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobile.lipart.BaseActivity;

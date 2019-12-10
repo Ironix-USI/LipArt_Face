@@ -1,6 +1,5 @@
 package com.mobile.lipart.ui.buy;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobile.lipart.R;
-import com.mobile.lipart.model.Lipstick;
 import com.mobile.lipart.model.LipstickItem;
 
 import java.util.ArrayList;

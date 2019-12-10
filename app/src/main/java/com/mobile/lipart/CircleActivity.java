@@ -16,17 +16,30 @@
 
 package com.mobile.lipart;
 
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.mobile.lipart.model.Post;
+import com.mobile.lipart.model.User;
 import com.mobile.lipart.ui.post.MyPostsFragment;
 import com.mobile.lipart.ui.post.MyTopPostsFragment;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CircleActivity extends BaseActivity {
 
@@ -34,6 +47,8 @@ public class CircleActivity extends BaseActivity {
 
     private FragmentPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
+    private String mText = "";
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,10 +88,16 @@ public class CircleActivity extends BaseActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
         // Button launches NewPostActivity
+//        findViewById(R.id.fabNewPost).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(CircleActivity.this, NewPostActivity.class));
+//            }
+//        });
         findViewById(R.id.fabNewPost).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CircleActivity.this, NewPostActivity.class));
+                newPost();
             }
         });
     }
@@ -86,7 +107,7 @@ public class CircleActivity extends BaseActivity {
 //        getMenuInflater().inflate(R.menu.menu_main, menu);
 //        return true;
 //    }
-//
+
 //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {
 //        int i = item.getItemId();
@@ -99,5 +120,78 @@ public class CircleActivity extends BaseActivity {
 //            return super.onOptionsItemSelected(item);
 //        }
 //    }
+    private void newPost() {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
+        // Set up the input
+        final EditText input = new EditText(this);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mText = input.getText().toString();
+                submitPost(mText, "");
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.show();
+    }
+
+    private void submitPost(final String body, final String color) {
+        final String userId = getUid();
+        mDatabase.child("users").child(userId).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // Get user value
+                        User user = dataSnapshot.getValue(User.class);
+
+                        // [START_EXCLUDE]
+                        if (user == null) {
+                            // User is null, error out
+                            Log.e(TAG, "User " + userId + " is unexpectedly null");
+                        } else {
+                            // Write new post
+                            writeNewPost(userId, user.username, body, color);
+                        }
+
+                        // Finish this Activity, back to the stream
+                        finish();
+                        // [END_EXCLUDE]
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+                        // [START_EXCLUDE]
+                        // [END_EXCLUDE]
+                    }
+                });
+        // [END single_value_read]
+    }
+
+    // [START write_fan_out]
+    private void writeNewPost(String userId, String username, String body, String color) {
+        // Create new post at /user-posts/$userid/$postid and at
+        // /posts/$postid simultaneously
+        String key = mDatabase.child("posts").push().getKey();
+        Post post = new Post(userId, username, body, color);
+        Map<String, Object> postValues = post.toMap();
+
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/posts/" + key, postValues);
+        childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
+
+        mDatabase.updateChildren(childUpdates);
+    }
+    // [END write_fan_out]
 }

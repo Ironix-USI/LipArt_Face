@@ -92,3 +92,6 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+app/app.iml
+app/gradle/wrapper/gradle-wrapper.properties
+app/local.properties
