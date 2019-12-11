@@ -17,22 +17,15 @@ import java.util.List;
 /** Graphic instance for rendering face contours graphic overlay view. */
 public class FaceContourGraphic extends Graphic {
 
-  private static final float FACE_POSITION_RADIUS = 4.0f;
-
-  private final Paint facePositionPaint;
 
   private final Paint lipPaint;
 
   private volatile FirebaseVisionFace firebaseVisionFace;
 
-  public FaceContourGraphic(GraphicOverlay overlay, FirebaseVisionFace face) {
+  public FaceContourGraphic(GraphicOverlay overlay, FirebaseVisionFace face, String color) {
     super(overlay);
 
     this.firebaseVisionFace = face;
-    final int selectedColor = Color.WHITE;
-
-    facePositionPaint = new Paint();
-    facePositionPaint.setColor(selectedColor);
 
     lipPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 //    int test = Color.parseColor("#99ff0000");
@@ -42,7 +35,8 @@ public class FaceContourGraphic extends Graphic {
 //    final int lipColor = ColorUtil.adjustAlpha(test, 0.3f);
 
 //    final int lipColor = ColorUtil.HSLToColor(ColorUtil.colorToHSL(test));
-    final int lipColor = Color.parseColor("#99ff0000");
+//    final int lipColor = Color.parseColor("#99ff0000");
+    final int lipColor = Color.parseColor(color);
     lipPaint.setStyle(Paint.Style.FILL);
     lipPaint.setColor(lipColor);
     lipPaint.setAlpha(50);
@@ -57,8 +51,6 @@ public class FaceContourGraphic extends Graphic {
     if (face == null) {
       return;
     }
-
-    FirebaseVisionFaceContour contour = face.getContour(FirebaseVisionFaceContour.ALL_POINTS);
 
     List<FirebaseVisionPoint> upperLipBottomContour =
             face.getContour(FirebaseVisionFaceContour.UPPER_LIP_BOTTOM).getPoints();

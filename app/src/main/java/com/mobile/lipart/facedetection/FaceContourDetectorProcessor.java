@@ -29,8 +29,9 @@ public class FaceContourDetectorProcessor extends VisionProcessorBase<List<Fireb
     private static final String TAG = "FaceContourDetectorProc";
 
     private final FirebaseVisionFaceDetector detector;
+    private String color;
 
-    public FaceContourDetectorProcessor() {
+    public FaceContourDetectorProcessor(String color) {
         FirebaseVisionFaceDetectorOptions options =
                 new FirebaseVisionFaceDetectorOptions.Builder()
                         .setPerformanceMode(FirebaseVisionFaceDetectorOptions.FAST)
@@ -38,6 +39,7 @@ public class FaceContourDetectorProcessor extends VisionProcessorBase<List<Fireb
                         .build();
 
         detector = FirebaseVision.getInstance().getVisionFaceDetector(options);
+        this.color = color;
     }
 
     @Override
@@ -68,7 +70,7 @@ public class FaceContourDetectorProcessor extends VisionProcessorBase<List<Fireb
         }
         for (int i = 0; i < faces.size(); ++i) {
             FirebaseVisionFace face = faces.get(i);
-            FaceContourGraphic faceGraphic = new FaceContourGraphic(graphicOverlay, face);
+            FaceContourGraphic faceGraphic = new FaceContourGraphic(graphicOverlay, face, color);
             graphicOverlay.add(faceGraphic);
         }
         graphicOverlay.postInvalidate();
