@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     android:id="@+id/fragment_buy">
 
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lipstickList"
         android:layout_width="match_parent"

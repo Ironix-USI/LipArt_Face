@@ -51,6 +51,7 @@ dependencies {
     implementation 'androidx.arch.core:core-runtime:2.1.0'
     implementation 'com.google.firebase:firebase-core:17.2.1'
     implementation 'com.google.code.gson:gson:2.8.2'
+
 //    implementation 'com.google.firebase:firebase-storage:19.1.0'
 
 }
