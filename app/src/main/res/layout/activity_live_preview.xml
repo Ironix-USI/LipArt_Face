@@ -69,6 +69,15 @@
         android:layout_gravity="center"
         android:text="@string/share" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/loadButton"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="load palette" />
+
   </FrameLayout>
 
 </RelativeLayout>

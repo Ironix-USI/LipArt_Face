@@ -92,6 +92,7 @@ public final class LivePreviewActivity extends BaseActivity
     private String mText = "";
     private String hex = "";
     private final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private Button loadButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +120,7 @@ public final class LivePreviewActivity extends BaseActivity
                 sharePost();
             }
         });
+        shareButton.setVisibility(View.INVISIBLE);
 
         InputStream is = getResources().openRawResource(R.raw.color);
         Writer writer = new StringWriter();
@@ -157,38 +159,45 @@ public final class LivePreviewActivity extends BaseActivity
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-//        mDatabase.child("user-colors/" + getUid()).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot item_snapshot : dataSnapshot.getChildren()) {
-//                    lipstickColor.add(item_snapshot.child("color").getValue().toString());
-//                }
-//            }
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//            }
-//        });
-
-        LinearLayout palette = findViewById(R.id.palette);
-        for (int i = 0; i < lipstickColor.size(); i++) {
-            final ImageView iv = new ImageView(getApplicationContext());
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.setMargins(10, 10, 5, 20);
-            params.gravity = Gravity.CENTER_VERTICAL;
-            iv.setImageResource(R.drawable.circle_palette);
-            iv.setColorFilter(Color.parseColor(lipstickColor.get(i)));
-            iv.setLayoutParams(params);
-            final int finalI = i;
-            iv.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    preview.stop();
-                    hex = lipstickColor.get(finalI);
-                    createCameraSource(FACE_CONTOUR, hex);
-                    startCameraSource();
+        mDatabase.child("user-colors/" + getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot item_snapshot : dataSnapshot.getChildren()) {
+                    lipstickColor.add(item_snapshot.child("color").getValue().toString());
                 }
-            });
-            palette.addView(iv);
-        }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+        loadButton = findViewById(R.id.loadButton);
+        loadButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                LinearLayout palette = findViewById(R.id.palette);
+                for (int i = 0; i < lipstickColor.size(); i++) {
+                    final ImageView iv = new ImageView(getApplicationContext());
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    params.setMargins(10, 10, 5, 20);
+                    params.gravity = Gravity.CENTER_VERTICAL;
+                    iv.setImageResource(R.drawable.circle_palette);
+                    iv.setColorFilter(Color.parseColor(lipstickColor.get(i)));
+                    iv.setLayoutParams(params);
+                    final int finalI = i;
+                    iv.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            preview.stop();
+                            hex = lipstickColor.get(finalI);
+                            createCameraSource(FACE_CONTOUR, hex);
+                            startCameraSource();
+                        }
+                    });
+                    palette.addView(iv);
+                }
+                loadButton.setVisibility(View.INVISIBLE);
+                shareButton.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
