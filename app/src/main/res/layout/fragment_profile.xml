@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingBottom="70dp">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/profile_card"
@@ -32,6 +37,7 @@
             />
     </com.google.android.material.card.MaterialCardView>
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/posts_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/mtrl_card_spacing"
@@ -63,4 +69,126 @@
             />
 
     </com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/my_lipsticks_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/mtrl_card_spacing"
+        android:layout_marginTop="@dimen/mtrl_card_spacing"
+        android:layout_marginRight="@dimen/mtrl_card_spacing"
+        android:minHeight="40dp"
+        android:layout_below="@+id/posts_card"
+        android:theme="@style/Theme.MaterialComponents.Light">
+        <Button
+            android:id="@+id/my_lipsticks_button"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="left|center_vertical"
+            android:background="@android:color/background_light"
+            android:drawablePadding="30dp"
+            android:drawableEnd="@drawable/icon_right_aero_black"
+            android:minWidth="0dp"
+            android:paddingLeft="15dp"
+            android:scaleType="center"
+            android:text="My Lipsticks"
+            android:textColor="#DE000000" />
+    </com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/my_favourites_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/mtrl_card_spacing"
+        android:layout_marginTop="@dimen/mtrl_card_spacing"
+        android:layout_marginRight="@dimen/mtrl_card_spacing"
+        android:minHeight="40dp"
+        android:layout_below="@+id/my_lipsticks_card"
+        android:theme="@style/Theme.MaterialComponents.Light">
+        <Button
+            android:id="@+id/my_favourites_button"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="left|center_vertical"
+            android:background="@android:color/background_light"
+            android:drawablePadding="30dp"
+            android:drawableEnd="@drawable/icon_right_aero_black"
+            android:minWidth="0dp"
+            android:paddingLeft="15dp"
+            android:scaleType="center"
+            android:text="My Favourites"
+            android:textColor="#DE000000" />
+    </com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/my_wallet_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/mtrl_card_spacing"
+        android:layout_marginTop="@dimen/mtrl_card_spacing"
+        android:layout_marginRight="@dimen/mtrl_card_spacing"
+        android:minHeight="40dp"
+        android:layout_below="@+id/my_favourites_card"
+        android:theme="@style/Theme.MaterialComponents.Light">
+        <Button
+            android:id="@+id/my_wallet_button"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="left|center_vertical"
+            android:background="@android:color/background_light"
+            android:drawablePadding="30dp"
+            android:drawableEnd="@drawable/icon_right_aero_black"
+            android:minWidth="0dp"
+            android:paddingLeft="15dp"
+            android:scaleType="center"
+            android:text="My Wallet"
+            android:textColor="#DE000000" />
+    </com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.card.MaterialCardView
+    android:id="@+id/invite_friends_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/mtrl_card_spacing"
+    android:layout_marginTop="@dimen/mtrl_card_spacing"
+    android:layout_marginRight="@dimen/mtrl_card_spacing"
+    android:minHeight="40dp"
+    android:layout_below="@+id/my_wallet_card"
+    android:theme="@style/Theme.MaterialComponents.Light">
+    <Button
+        android:id="@+id/invite_friends_button"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="left|center_vertical"
+        android:background="@android:color/background_light"
+        android:drawablePadding="30dp"
+        android:drawableEnd="@drawable/icon_right_aero_black"
+        android:minWidth="0dp"
+        android:paddingLeft="15dp"
+        android:scaleType="center"
+        android:text="Invite Friends"
+        android:textColor="#DE000000" />
+</com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/feedback_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/mtrl_card_spacing"
+        android:layout_marginTop="@dimen/mtrl_card_spacing"
+        android:layout_marginRight="@dimen/mtrl_card_spacing"
+        android:minHeight="40dp"
+        android:layout_below="@+id/invite_friends_card"
+        android:theme="@style/Theme.MaterialComponents.Light">
+        <Button
+            android:id="@+id/feedback_button"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="left|center_vertical"
+            android:background="@android:color/background_light"
+            android:drawablePadding="30dp"
+            android:drawableEnd="@drawable/icon_right_aero_black"
+            android:minWidth="0dp"
+            android:paddingLeft="15dp"
+            android:paddingBottom="5dp"
+            android:scaleType="center"
+            android:text="Feedback"
+            android:textColor="#DE000000" />
+    </com.google.android.material.card.MaterialCardView>
 </RelativeLayout>
+</ScrollView>
