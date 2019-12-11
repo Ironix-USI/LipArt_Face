@@ -13,19 +13,24 @@
 // limitations under the License.
 package com.mobile.lipart;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.CompoundButton;
-import android.widget.TextView;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,16 +40,38 @@ import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.common.annotation.KeepName;
+import com.google.firebase.FirebaseError;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.mobile.lipart.common.CameraSource;
 import com.mobile.lipart.common.CameraSourcePreview;
 import com.mobile.lipart.common.GraphicOverlay;
 import com.mobile.lipart.common.preference.SettingsActivity;
 import com.mobile.lipart.common.preference.SettingsActivity.LaunchSource;
 import com.mobile.lipart.facedetection.FaceContourDetectorProcessor;
+import com.mobile.lipart.model.Post;
+import com.mobile.lipart.model.User;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 
 /**
  * Demo app showing the various features of ML Kit for Firebase. This class is used to
@@ -52,9 +79,8 @@ import java.util.List;
  */
 @KeepName
 public final class LivePreviewActivity extends AppCompatActivity
-        implements OnRequestPermissionsResultCallback,
-        OnItemSelectedListener,
-        CompoundButton.OnCheckedChangeListener {
+        implements OnRequestPermissionsResultCallback {
+
     private static final String FACE_CONTOUR = "Face Contour";
     private static final String TAG = "LivePreviewActivity";
     private static final int PERMISSION_REQUESTS = 1;
@@ -63,7 +89,11 @@ public final class LivePreviewActivity extends AppCompatActivity
     private CameraSourcePreview preview;
     private GraphicOverlay graphicOverlay;
     private String selectedModel = FACE_CONTOUR;
-    private TextView mTextView;
+    private Button shareButton;
+    private DatabaseReference mDatabase;
+    private String mText = "";
+    private String hex = "";
+    private final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,47 +111,94 @@ public final class LivePreviewActivity extends AppCompatActivity
             Log.d(TAG, "graphicOverlay is null");
         }
 
-        if (allPermissionsGranted()) {
-            createCameraSource(selectedModel);
-        } else {
+        if (!allPermissionsGranted()) {
             getRuntimePermissions();
         }
-    }
 
-    @Override
-    public synchronized void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        // An item was selected. You can retrieve the selected item using
-        // parent.getItemAtPosition(pos)
-        selectedModel = parent.getItemAtPosition(pos).toString();
-        Log.d(TAG, "Selected model: " + selectedModel);
-        preview.stop();
-        if (allPermissionsGranted()) {
-            createCameraSource(selectedModel);
-            startCameraSource();
-        } else {
-            getRuntimePermissions();
+        shareButton = findViewById(R.id.shareLiveButton);
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                sharePost();
+            }
+        });
+
+        InputStream is = getResources().openRawResource(R.raw.color);
+        Writer writer = new StringWriter();
+        char[] buffer = new char[1024];
+        try {
+            Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            int n;
+            while ((n = reader.read(buffer)) != -1) {
+                writer.write(buffer, 0, n);
+            }
+        } catch (Exception e) {
+            Log.e("Unhandled exception", e.toString());
         }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-        // Do nothing.
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        Log.d(TAG, "Set facing");
-        if (cameraSource != null) {
-            if (isChecked) {
-                cameraSource.setFacing(CameraSource.CAMERA_FACING_FRONT);
-            } else {
-                cameraSource.setFacing(CameraSource.CAMERA_FACING_BACK);
+        finally {
+            try {
+                is.close();
+            } catch (Exception e) {
+                Log.e("JSON closing", e.toString());
             }
         }
-        preview.stop();
-        startCameraSource();
-    }
 
+        String jsonString = writer.toString().trim();
+
+        JsonArray convertedObject = new Gson().fromJson(jsonString, JsonObject.class).get("brands").getAsJsonArray();
+
+        final ArrayList<String> lipstickColor = new ArrayList<>();
+
+        for (JsonElement element : convertedObject) {
+            for(JsonElement serie: ((JsonObject) element).get("series").getAsJsonArray()) {
+                for(JsonElement lipstick: ((JsonObject) serie).get("lipsticks").getAsJsonArray()) {
+                    String lColor = ((JsonObject) lipstick).get("color").getAsString();
+                    lipstickColor.add(lColor);
+                }
+            }
+        }
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("users").child(userId).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // Get user value
+                        for(DataSnapshot item_snapshot:dataSnapshot.child("user-colors").getChildren()) {
+                            lipstickColor.add(item_snapshot.getValue().toString());
+                            Log.w(TAG, item_snapshot.getValue().toString());
+                        }
+                        // [END_EXCLUDE]
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+                        // [START_EXCLUDE]
+                        // [END_EXCLUDE]
+                    }
+                });
+
+        LinearLayout palette = findViewById(R.id.palette);
+        for (int i = 0; i < lipstickColor.size(); i++) {
+            ImageView iv = new ImageView(getApplicationContext());
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(10, 10, 5, 20);
+            params.gravity = Gravity.CENTER_VERTICAL;
+            iv.setImageResource(R.drawable.circle_palette);
+            iv.setColorFilter(Color.parseColor(lipstickColor.get(i)));
+            iv.setLayoutParams(params);
+            final int finalI = i;
+            iv.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    preview.stop();
+                    hex = lipstickColor.get(finalI);
+                    createCameraSource(FACE_CONTOUR, hex);
+                    startCameraSource();
+                }
+            });
+            palette.addView(iv);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -141,7 +218,7 @@ public final class LivePreviewActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    private void createCameraSource(String model) {
+    private void createCameraSource(String model, String color) {
         // If there's no existing cameraSource, create one.
         if (cameraSource == null) {
             cameraSource = new CameraSource(this, graphicOverlay);
@@ -152,7 +229,7 @@ public final class LivePreviewActivity extends AppCompatActivity
             switch (model) {
                 case FACE_CONTOUR:
                     Log.i(TAG, "Using Face Contour Detector Processor");
-                    cameraSource.setMachineLearningFrameProcessor(new FaceContourDetectorProcessor());
+                    cameraSource.setMachineLearningFrameProcessor(new FaceContourDetectorProcessor(color));
                     break;
                 default:
                     Log.e(TAG, "Unknown model: " + model);
@@ -258,7 +335,7 @@ public final class LivePreviewActivity extends AppCompatActivity
             int requestCode, String[] permissions, @NonNull int[] grantResults) {
         Log.i(TAG, "Permission granted!");
         if (allPermissionsGranted()) {
-            createCameraSource(selectedModel);
+            createCameraSource(selectedModel, "00FFFFFF");
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -272,4 +349,80 @@ public final class LivePreviewActivity extends AppCompatActivity
         Log.i(TAG, "Permission NOT granted: " + permission);
         return false;
     }
+
+    private void sharePost() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // Set up the input
+        final EditText input = new EditText(this);
+        input.setHint("write...");
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("Post", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mText = input.getText().toString();
+                if (!mText.equals("")) {
+                    submitPost(mText, hex);
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.show();
+    }
+
+    private void submitPost(final String body, final String color) { ;
+        mDatabase.child("users").child(userId).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // Get user value
+                        User user = dataSnapshot.getValue(User.class);
+
+                        // [START_EXCLUDE]
+                        if (user == null) {
+                            // User is null, error out
+                            Log.e(TAG, "User " + userId + " is unexpectedly null");
+                        } else {
+                            // Write new post
+                            writeNewPost(userId, user.username, body, color);
+                        }
+                        // [END_EXCLUDE]
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+                        // [START_EXCLUDE]
+                        // [END_EXCLUDE]
+                    }
+                });
+        // [END single_value_read]
+    }
+
+    // [START write_fan_out]
+    private void writeNewPost(String userId, String username, String body, String color) {
+        // Create new post at /user-posts/$userid/$postid and at
+        // /posts/$postid simultaneously
+        String key = mDatabase.child("posts").push().getKey();
+        Post post = new Post(userId, username, body, color, key);
+        Map<String, Object> postValues = post.toMap();
+
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/posts/" + key, postValues);
+        childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
+
+        mDatabase.updateChildren(childUpdates);
+        Toast.makeText(this, "Posted.",
+                Toast.LENGTH_SHORT).show();
+    }
+    // [END write_fan_out]
 }

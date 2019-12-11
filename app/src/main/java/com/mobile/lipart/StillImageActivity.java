@@ -447,6 +447,7 @@ public final class StillImageActivity extends BaseActivity {
 
     // Set up the input
     final EditText input = new EditText(this);
+    input.setHint("write...");
     builder.setView(input);
 
     // Set up the buttons
