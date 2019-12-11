@@ -1,38 +1,28 @@
 package com.mobile.lipart.ui.circle;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.fragment.app.FragmentTransaction;
 
-import com.mobile.lipart.CircleActivity;
 import com.mobile.lipart.R;
 
 public class CircleFragment extends Fragment {
 
-    private CircleViewModel circleViewModel;
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        circleViewModel =
-                ViewModelProviders.of(this).get(CircleViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_circle, container, false);
-        final TextView textView = root.findViewById(R.id.text_circle);
-        circleViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-        startActivity(new Intent(getActivity(), CircleActivity.class));
+
+        Fragment someFragment = new PostFragment();
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_circle, someFragment); // give your fragment container id in first parameter
+        transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
+        transaction.commit();
 
         return root;
     }

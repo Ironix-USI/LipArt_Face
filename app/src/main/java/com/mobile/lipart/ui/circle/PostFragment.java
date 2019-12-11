@@ -1,39 +1,29 @@
-/*
- * Copyright 2015 Google Inc. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package com.mobile.lipart;
+package com.mobile.lipart.ui.circle;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mobile.lipart.R;
 import com.mobile.lipart.model.Post;
 import com.mobile.lipart.model.User;
 import com.mobile.lipart.ui.post.MyPostsFragment;
@@ -42,64 +32,71 @@ import com.mobile.lipart.ui.post.MyTopPostsFragment;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CircleActivity extends BaseActivity {
+public class PostFragment extends Fragment {
 
-    private static final String TAG = "MainActivity";
-
+    private static final String TAG = "CircleActivity";
     private FragmentPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
     private String mText = "";
     private DatabaseReference mDatabase;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_circle);
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
 
-        // Create the adapter that will return a fragment for each section
-        mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager(),
+        View root = inflater.inflate(R.layout.activity_circle, container, false);
+
+        mPagerAdapter = new FragmentPagerAdapter(getFragmentManager(),
                 FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-            private final Fragment[] mFragments = new Fragment[] {
+            private final Fragment[] mFragments = new Fragment[]{
                     new MyTopPostsFragment(),
                     new MyPostsFragment(),
             };
-            private final String[] mFragmentNames = new String[] {
+            private final String[] mFragmentNames = new String[]{
                     getString(R.string.heading_my_top_posts),
                     getString(R.string.heading_my_posts),
             };
+
             @Override
             public Fragment getItem(int position) {
                 return mFragments[position];
             }
+
             @Override
             public int getCount() {
                 return mFragments.length;
             }
+
             @Override
             public CharSequence getPageTitle(int position) {
                 return mFragmentNames[position];
             }
         };
         // Set up the ViewPager with the sections adapter.
-        mViewPager = findViewById(R.id.container);
+        mViewPager = root.findViewById(R.id.container);
         mViewPager.setAdapter(mPagerAdapter);
-        TabLayout tabLayout = findViewById(R.id.tabs);
+        TabLayout tabLayout = root.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        findViewById(R.id.fabNewPost).setOnClickListener(new View.OnClickListener() {
+        root.findViewById(R.id.fabNewPost).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 newPost();
             }
         });
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+        return root;
     }
 
     private void newPost() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         // Set up the input
-        final EditText input = new EditText(this);
+        final EditText input = new EditText(getActivity());
         builder.setView(input);
 
         // Set up the buttons
@@ -123,7 +120,7 @@ public class CircleActivity extends BaseActivity {
     }
 
     private void submitPost(final String body, final String color) {
-        final String userId = getUid();
+        final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mDatabase.child("users").child(userId).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
@@ -140,8 +137,6 @@ public class CircleActivity extends BaseActivity {
                             writeNewPost(userId, user.username, body, color);
                         }
 
-                        // Finish this Activity, back to the stream
-                        finish();
                         // [END_EXCLUDE]
                     }
 
@@ -168,8 +163,7 @@ public class CircleActivity extends BaseActivity {
         childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
 
         mDatabase.updateChildren(childUpdates);
-        Toast.makeText(this, "Posted.",
+        Toast.makeText(getActivity(), "Posted.",
                 Toast.LENGTH_SHORT).show();
     }
-    // [END write_fan_out]
 }

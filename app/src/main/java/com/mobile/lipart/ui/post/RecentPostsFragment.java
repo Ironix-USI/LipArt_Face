@@ -5,7 +5,8 @@ import com.google.firebase.database.Query;
 
 public class RecentPostsFragment extends PostListFragment {
 
-    public RecentPostsFragment() {}
+    public RecentPostsFragment() {
+    }
 
     @Override
     public Query getQuery(DatabaseReference databaseReference) {
@@ -13,7 +14,7 @@ public class RecentPostsFragment extends PostListFragment {
         // Last 100 posts, these are automatically the 100 most recent
         // due to sorting by push() keys
         Query recentPostsQuery = databaseReference.child("posts")
-                .limitToFirst(10);
+                .limitToLast(10);
         // [END recent_posts_query]
 
         return recentPostsQuery;
