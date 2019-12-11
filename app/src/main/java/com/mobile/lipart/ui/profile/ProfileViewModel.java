@@ -18,7 +18,7 @@ public class ProfileViewModel extends ViewModel {
 
     private MutableLiveData<String> mPostCount;
     private DatabaseReference mDatabase;
-
+    public static String mUsername;
 
 
     public ProfileViewModel() {
@@ -38,9 +38,17 @@ public class ProfileViewModel extends ViewModel {
 
             }
         });
+
+        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        if (email.contains("@")) {
+            mUsername = email.split("@")[0];
+        } else {
+            mUsername = email;
+        }
     }
 
     public LiveData<String> getPostCount() {
         return mPostCount;
     }
+    public static String getUserName() { return mUsername; }
 }

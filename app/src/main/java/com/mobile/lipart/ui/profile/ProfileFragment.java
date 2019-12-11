@@ -39,6 +39,9 @@ public class ProfileFragment extends Fragment {
             }
 
         });
+        final TextView userTextView = root.findViewById(R.id.username);
+        userTextView.setText(ProfileViewModel.getUserName());
+
         return root;
     }
 }

@@ -52,8 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-
-                tools:text="7" />
+                tools:text="7"/>
 
             <Button
                 android:id="@+id/deleteButton"
@@ -62,17 +61,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:background="@android:color/background_light"
-                android:drawableEnd="@drawable/ic_delete_foreground" />
+                android:drawableStart="@drawable/ic_delete_foreground" />
 
         </LinearLayout>
 
         <include
             layout="@layout/include_post_text"
-            android:layout_width="295dp"
+            android:layout_width="270dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/postAuthorLayout"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="81dp"
+            android:layout_marginLeft="85dp"
             android:layout_marginTop="10dp" />
 
     </RelativeLayout>
