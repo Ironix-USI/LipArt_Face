@@ -43,6 +43,16 @@
                 android:gravity="center"
                 tools:text="7" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/deleteButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="5dp"
+                android:text="X" />
+
         </LinearLayout>
 
         <include
