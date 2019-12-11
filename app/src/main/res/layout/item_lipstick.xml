@@ -44,11 +44,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Buy"
+                android:textColor="@color/colorPrimaryDark"
                 android:theme="@style/Theme.MaterialComponents.Light"
-                android:backgroundTint="@color/colorPrimaryDark"
+                android:backgroundTint="@android:color/transparent"
                 android:layout_alignParentRight="true"
                 android:gravity="center"
-                android:orientation="vertical"/>
+                android:orientation="vertical"
+                style="?android:attr/borderlessButtonStyle"/>
         </RelativeLayout>
 
     </LinearLayout>
