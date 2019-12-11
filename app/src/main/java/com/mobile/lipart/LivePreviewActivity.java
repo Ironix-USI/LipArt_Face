@@ -192,15 +192,18 @@ public final class LivePreviewActivity extends BaseActivity
                         public void onClick(View v) {
                             preview.stop();
                             hex = lipstickColor.get(finalI);
+                            // Add pallete border to show focus button
                             GradientDrawable drawable = new GradientDrawable();
                             drawable.setColor(Color.TRANSPARENT);
                             drawable.setShape(GradientDrawable.OVAL);
                             drawable.setStroke(4, Color.parseColor("#e1e2e3"));
                             drawable.setSize(2, 2);
+                            // remove current focused border
                             if(focusButton != 0){
                                 final ImageView focusiv = findViewById(focusButton);
                                 focusiv.setBackgroundResource(0);
                             }
+                            // add new focus border
                             focusButton = iv.getId();
                             iv.setBackground(drawable);
                             createCameraSource(FACE_CONTOUR, hex);
