@@ -7,6 +7,9 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,6 +20,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.mobile.lipart.EmailPasswordActivity;
 import com.mobile.lipart.LivePreviewActivity;
 import com.mobile.lipart.R;
 import com.mobile.lipart.StillImageActivity;
@@ -107,5 +112,4 @@ public class SnapFragment extends Fragment implements ActivityCompat.OnRequestPe
         Log.i(TAG, "Permission NOT granted: " + permission);
         return false;
     }
-
 }

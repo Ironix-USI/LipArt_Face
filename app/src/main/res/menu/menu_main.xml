@@ -6,4 +6,10 @@
         android:title="@string/menu_logout"
         android:visible="true"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/tutorial"
+        android:title="@string/tutorial"
+        android:visible="true"
+        app:showAsAction="never" />
 </menu>

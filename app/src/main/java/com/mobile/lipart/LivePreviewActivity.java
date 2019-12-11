@@ -20,6 +20,8 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -180,7 +182,7 @@ public final class LivePreviewActivity extends AppCompatActivity
 
         LinearLayout palette = findViewById(R.id.palette);
         for (int i = 0; i < lipstickColor.size(); i++) {
-            ImageView iv = new ImageView(getApplicationContext());
+            final ImageView iv = new ImageView(getApplicationContext());
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.setMargins(10, 10, 5, 20);
             params.gravity = Gravity.CENTER_VERTICAL;

@@ -1,6 +1,10 @@
 package com.mobile.lipart;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -9,6 +13,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,5 +40,23 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().popBackStack();
         else
             finish();    // Finish the activity
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int i = item.getItemId();
+        if (i == R.id.action_logout) {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(this, EmailPasswordActivity.class));
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 }
