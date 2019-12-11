@@ -20,8 +20,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -36,13 +34,11 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.common.annotation.KeepName;
-import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -80,7 +76,7 @@ import java.util.Map;
  * set up continuous frame processing on frames from a camera source.
  */
 @KeepName
-public final class LivePreviewActivity extends AppCompatActivity
+public final class LivePreviewActivity extends BaseActivity
         implements OnRequestPermissionsResultCallback {
 
     private static final String FACE_CONTOUR = "Face Contour";
@@ -160,25 +156,18 @@ public final class LivePreviewActivity extends AppCompatActivity
         }
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("users").child(userId).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        // Get user value
-                        for(DataSnapshot item_snapshot:dataSnapshot.child("user-colors").getChildren()) {
-                            lipstickColor.add(item_snapshot.getValue().toString());
-                            Log.w(TAG, item_snapshot.getValue().toString());
-                        }
-                        // [END_EXCLUDE]
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
-                        // [START_EXCLUDE]
-                        // [END_EXCLUDE]
-                    }
-                });
+//        mDatabase.child("user-colors/" + getUid()).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot item_snapshot : dataSnapshot.getChildren()) {
+//                    lipstickColor.add(item_snapshot.child("color").getValue().toString());
+//                }
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//            }
+//        });
 
         LinearLayout palette = findViewById(R.id.palette);
         for (int i = 0; i < lipstickColor.size(); i++) {
