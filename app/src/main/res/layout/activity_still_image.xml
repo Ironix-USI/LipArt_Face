@@ -77,6 +77,16 @@
             android:contentDescription="TODO"
             android:src="@drawable/circle1" />
 
+        <TextView
+            android:id="@+id/pickedcolortext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/picked_color_guide"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+
     </FrameLayout>
 
     <FrameLayout

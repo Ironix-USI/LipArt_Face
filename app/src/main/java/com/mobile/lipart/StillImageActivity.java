@@ -101,6 +101,7 @@ public final class StillImageActivity extends BaseActivity {
   private DatabaseReference mDatabase;
   private Button shareButton;
   private String mText = "";
+  private TextView pickedColorText;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -147,6 +148,7 @@ public final class StillImageActivity extends BaseActivity {
     }
 
     drawable = findViewById(R.id.colorCircle);
+    pickedColorText = findViewById(R.id.pickedcolortext);
 
     isLandScape =
         (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
@@ -186,6 +188,7 @@ public final class StillImageActivity extends BaseActivity {
                 }
             });
 
+    pickedColorText.setVisibility(View.INVISIBLE);
     saveColorButton.setVisibility(View.INVISIBLE);
     shareButton.setVisibility(View.INVISIBLE);
   }
@@ -297,6 +300,7 @@ public final class StillImageActivity extends BaseActivity {
       preview.setImageBitmap(resizedBitmap);
       bitmapForDetection = resizedBitmap;
 
+      pickedColorText.setVisibility(View.VISIBLE);
       saveColorButton.setVisibility(View.VISIBLE);
       shareButton.setVisibility(View.VISIBLE);
 
@@ -388,6 +392,7 @@ public final class StillImageActivity extends BaseActivity {
           hex = String.format("#%02X%02X%02X", r, g, b);
           graphicOverlay.clear();
           drawable.setColorFilter(Color.parseColor(hex), PorterDuff.Mode.SRC);
+          pickedColorText.setVisibility(View.INVISIBLE);
         }
       default :
         return super.onTouchEvent(event);
