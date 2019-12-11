@@ -40,6 +40,7 @@ import androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.common.annotation.KeepName;
+import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -92,6 +93,7 @@ public final class LivePreviewActivity extends AppCompatActivity
     private DatabaseReference mDatabase;
     private String mText = "";
     private String hex = "";
+    private final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,6 +156,27 @@ public final class LivePreviewActivity extends AppCompatActivity
                 }
             }
         }
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("users").child(userId).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // Get user value
+                        for(DataSnapshot item_snapshot:dataSnapshot.child("user-colors").getChildren()) {
+                            lipstickColor.add(item_snapshot.getValue().toString());
+                            Log.w(TAG, item_snapshot.getValue().toString());
+                        }
+                        // [END_EXCLUDE]
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+                        // [START_EXCLUDE]
+                        // [END_EXCLUDE]
+                    }
+                });
 
         LinearLayout palette = findViewById(R.id.palette);
         for (int i = 0; i < lipstickColor.size(); i++) {
@@ -328,11 +351,12 @@ public final class LivePreviewActivity extends AppCompatActivity
     }
 
     private void sharePost() {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         // Set up the input
         final EditText input = new EditText(this);
+        input.setHint("write...");
         builder.setView(input);
 
         // Set up the buttons
@@ -355,8 +379,7 @@ public final class LivePreviewActivity extends AppCompatActivity
         builder.show();
     }
 
-    private void submitPost(final String body, final String color) {
-        final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private void submitPost(final String body, final String color) { ;
         mDatabase.child("users").child(userId).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
