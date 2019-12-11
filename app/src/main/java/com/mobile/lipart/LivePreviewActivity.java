@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -93,6 +94,7 @@ public final class LivePreviewActivity extends BaseActivity
     private String hex = "";
     private final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
     private Button loadButton;
+    private int focusButton = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,12 +184,25 @@ public final class LivePreviewActivity extends BaseActivity
                     params.gravity = Gravity.CENTER_VERTICAL;
                     iv.setImageResource(R.drawable.circle_palette);
                     iv.setColorFilter(Color.parseColor(lipstickColor.get(i)));
+                    iv.setPadding(5,5,5,5);
                     iv.setLayoutParams(params);
+                    iv.setId(i+1);
                     final int finalI = i;
                     iv.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             preview.stop();
                             hex = lipstickColor.get(finalI);
+                            GradientDrawable drawable = new GradientDrawable();
+                            drawable.setColor(Color.TRANSPARENT);
+                            drawable.setShape(GradientDrawable.OVAL);
+                            drawable.setStroke(4, Color.parseColor("#e1e2e3"));
+                            drawable.setSize(2, 2);
+                            if(focusButton != 0){
+                                final ImageView focusiv = findViewById(focusButton);
+                                focusiv.setBackgroundResource(0);
+                            }
+                            focusButton = iv.getId();
+                            iv.setBackground(drawable);
                             createCameraSource(FACE_CONTOUR, hex);
                             startCameraSource();
                         }
