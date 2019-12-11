@@ -36,12 +36,16 @@ public class FaceContourGraphic extends Graphic {
 
 //    final int lipColor = ColorUtil.HSLToColor(ColorUtil.colorToHSL(test));
 //    final int lipColor = Color.parseColor("#99ff0000");
+
+//    Color Blending
     final int lipColor = Color.parseColor(color);
     lipPaint.setStyle(Paint.Style.FILL);
     lipPaint.setColor(lipColor);
-    lipPaint.setAlpha(50);
+//    opacity
+    lipPaint.setAlpha(90);
     lipPaint.setAntiAlias(true);
-    lipPaint.setMaskFilter(new BlurMaskFilter(15, BlurMaskFilter.Blur.NORMAL));
+//    Blur
+    lipPaint.setMaskFilter(new BlurMaskFilter(9, BlurMaskFilter.Blur.NORMAL));
   }
 
   /** Draws the face annotations for position on the supplied canvas. */
