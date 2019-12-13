@@ -125,32 +125,6 @@
                     ]
                 }
             ]
-        },
-        {
-            "name": "Loreal",
-            "series": [
-                {
-                    "name": "COUTURE",
-                    "link": "https://www.yslbeautyus.com/makeup/lips/lipsticks/rouge-pur-couture-lipstick/194YSL.html",
-                    "lipsticks": [
-                        {
-                            "id": "19",
-                            "color": "#B13C79",
-                            "name": "Le Fuchsia"
-                        },
-                        {
-                            "id": "13",
-                            "color": "#BB1813",
-                            "name": "Le Orange"
-                        },
-                        {
-                            "id": "52",
-                            "color": "#EA4E59",
-                            "name": "Rouge Rose"
-                        }
-                    ]
-                }
-            ]
         }
     ]
 }
