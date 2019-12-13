@@ -32,6 +32,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -95,6 +96,7 @@ public final class LivePreviewActivity extends BaseActivity
     private final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
     private Button loadButton;
     private int focusButton = 0;
+    private TextView textColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +126,8 @@ public final class LivePreviewActivity extends BaseActivity
         });
         shareButton.setVisibility(View.INVISIBLE);
 
+        textColor = findViewById(R.id.colorText);
+
         InputStream is = getResources().openRawResource(R.raw.color);
         Writer writer = new StringWriter();
         char[] buffer = new char[1024];
@@ -148,16 +152,22 @@ public final class LivePreviewActivity extends BaseActivity
 
         JsonArray convertedObject = new Gson().fromJson(jsonString, JsonObject.class).get("brands").getAsJsonArray();
 
-        final ArrayList<String> lipstickColor = new ArrayList<>();
+//        final ArrayList<String> lipstickColor = new ArrayList<>();
+        final Map<String, String> mapColor = new HashMap<String, String>();
 
         for (JsonElement element : convertedObject) {
+            String brand_name = ((JsonObject) element).get("name").getAsString();
             for(JsonElement serie: ((JsonObject) element).get("series").getAsJsonArray()) {
                 for(JsonElement lipstick: ((JsonObject) serie).get("lipsticks").getAsJsonArray()) {
+                    String color_name = ((JsonObject) lipstick).get("name").getAsString();
                     String lColor = ((JsonObject) lipstick).get("color").getAsString();
-                    lipstickColor.add(lColor);
+                    mapColor.put(brand_name + " - " + color_name, lColor);
+//                    lipstickColor.add(lColor);
                 }
             }
         }
+
+
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -165,7 +175,8 @@ public final class LivePreviewActivity extends BaseActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot item_snapshot : dataSnapshot.getChildren()) {
-                    lipstickColor.add(item_snapshot.child("color").getValue().toString());
+                    mapColor.put("Your color collections", item_snapshot.child("color").getValue().toString());
+//                    lipstickColor.add(item_snapshot.child("color").getValue().toString());
                 }
             }
             @Override
@@ -177,27 +188,64 @@ public final class LivePreviewActivity extends BaseActivity
         loadButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 LinearLayout palette = findViewById(R.id.palette);
-                for (int i = 0; i < lipstickColor.size(); i++) {
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.setMargins(10, 10, 5, 20);
+                params.gravity = Gravity.CENTER_VERTICAL;
+//                for (int i = 0; i < lipstickColor.size(); i++) {
+//                    final ImageView iv = new ImageView(getApplicationContext());
+//                    iv.setImageResource(R.drawable.circle_palette);
+//                    iv.setColorFilter(Color.parseColor(lipstickColor.get(i)));
+//                    iv.setPadding(5,5,5,5);
+//                    iv.setLayoutParams(params);
+//                    iv.setId(i+1);
+//                    final int finalI = i;
+//                    iv.setOnClickListener(new View.OnClickListener() {
+//                        public void onClick(View v) {
+//                            preview.stop();
+//                            hex = lipstickColor.get(finalI);
+//                            // Add pallete border to show focus button
+//                            GradientDrawable drawable = new GradientDrawable();
+//                            drawable.setColor(Color.TRANSPARENT);
+//                            drawable.setShape(GradientDrawable.OVAL);
+//                            drawable.setStroke(4, Color.parseColor("#e1e2e3"));
+//                            drawable.setSize(2, 2);
+//                            // remove current focused border
+//                            if(focusButton != 0){
+//                                final ImageView focusiv = findViewById(focusButton);
+//                                focusiv.setBackgroundResource(0);
+//                            }
+//                            // add new focus border
+//                            focusButton = iv.getId();
+//                            iv.setBackground(drawable);
+//                            createCameraSource(FACE_CONTOUR, hex);
+//                            startCameraSource();
+//                        }
+//                    });
+//                    palette.addView(iv);
+//                }
+                int i = 0;
+                for (String key : mapColor.keySet()) {
                     final ImageView iv = new ImageView(getApplicationContext());
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    params.setMargins(10, 10, 5, 20);
-                    params.gravity = Gravity.CENTER_VERTICAL;
                     iv.setImageResource(R.drawable.circle_palette);
-                    iv.setColorFilter(Color.parseColor(lipstickColor.get(i)));
+                    iv.setColorFilter(Color.parseColor(mapColor.get(key)));
                     iv.setPadding(5,5,5,5);
                     iv.setLayoutParams(params);
                     iv.setId(i+1);
-                    final int finalI = i;
+                    final String finalColor = mapColor.get(key);
+                    final String finalKey = key;
                     iv.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             preview.stop();
-                            hex = lipstickColor.get(finalI);
+                            hex = finalColor;
                             // Add pallete border to show focus button
                             GradientDrawable drawable = new GradientDrawable();
                             drawable.setColor(Color.TRANSPARENT);
                             drawable.setShape(GradientDrawable.OVAL);
                             drawable.setStroke(4, Color.parseColor("#e1e2e3"));
                             drawable.setSize(2, 2);
+                            textColor.setText(finalKey);
+                            textColor.setTextColor(Color.WHITE);
+                            textColor.setPadding(60, 30, 60, 30);
                             // remove current focused border
                             if(focusButton != 0){
                                 final ImageView focusiv = findViewById(focusButton);
@@ -211,6 +259,7 @@ public final class LivePreviewActivity extends BaseActivity
                         }
                     });
                     palette.addView(iv);
+                    i++;
                 }
                 loadButton.setVisibility(View.INVISIBLE);
                 shareButton.setVisibility(View.VISIBLE);
