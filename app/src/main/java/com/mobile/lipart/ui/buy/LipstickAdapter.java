@@ -1,5 +1,6 @@
 package com.mobile.lipart.ui.buy;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -23,10 +24,12 @@ public class LipstickAdapter extends RecyclerView.Adapter<LipstickAdapter.Lipsti
 
         // List to store all the contact details
         private ArrayList<LipstickItem> lipstickList;
+        private Context mContext;
 
         // Counstructor for the Class
-        public LipstickAdapter(ArrayList<LipstickItem> lipstickList) {
+        public LipstickAdapter(Context c, ArrayList<LipstickItem> lipstickList) {
             this.lipstickList = lipstickList;
+            this.mContext = c;
 
         }
 
@@ -34,10 +37,9 @@ public class LipstickAdapter extends RecyclerView.Adapter<LipstickAdapter.Lipsti
         // Into the viewHolders which helps to display the items in the RecyclerView
         @Override
         public LipstickViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
 
             // Inflate the layout view you have created for the list rows here
-            View view = layoutInflater.inflate(R.layout.item_lipstick, parent, false);
+            View view = LayoutInflater.from(mContext).inflate(R.layout.item_lipstick, parent, false);
             return new LipstickViewHolder(view);
         }
 
@@ -96,6 +98,8 @@ public class LipstickAdapter extends RecyclerView.Adapter<LipstickAdapter.Lipsti
                     }
                 });
             }
+
+
 
         }
 
