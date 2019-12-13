@@ -1,11 +1,19 @@
 package com.mobile.lipart.ui.buy;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.widget.TextViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +35,10 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class LipstickFragment extends Fragment {
@@ -36,6 +48,8 @@ public class LipstickFragment extends Fragment {
     private ArrayList<LipstickItem> lipstickList = new ArrayList<>();
     private RecyclerView recycler;
     private LinearLayoutManager layoutManager;
+    private Context context;
+    private ArrayList<String> brandsList = new ArrayList<>();
 
     public LipstickFragment() {}
 
@@ -45,12 +59,14 @@ public class LipstickFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_buy, container, false);
+        context = getContext();
         recycler = rootView.findViewById(R.id.lipstickList);
         recycler.setHasFixedSize(true);
-        // 1. get a reference to recyclerView
+        layoutManager = new LinearLayoutManager(context);
+
+        // 2. set layoutManger
 
 
-        // this is data fro recycler view
 
         InputStream is = getResources().openRawResource(R.raw.color);
         Writer writer = new StringWriter();
@@ -76,7 +92,7 @@ public class LipstickFragment extends Fragment {
 
         JsonArray convertedObject = new Gson().fromJson(jsonString, JsonObject.class).get("brands").getAsJsonArray();
 
-        ArrayList<LipstickItem> lipstickItems = new ArrayList<>();
+        final ArrayList<LipstickItem> lipstickItems = new ArrayList<>();
         ArrayList<Brand> brands = new ArrayList<>();
         for (JsonElement element : convertedObject) {
             String bName = ((JsonObject) element).get("name").getAsString();
@@ -98,6 +114,12 @@ public class LipstickFragment extends Fragment {
                 lipstickSeries.add(new LipstickSeries(lsName, lsLink, lipsticks));
             }
             brands.add(new Brand(bName, lipstickSeries));
+            if(brandsList.isEmpty()){
+                brandsList.add("All");
+            }
+            if (!brandsList.contains(bName)) {
+                brandsList.add(bName);
+            }
         }
 
 
@@ -105,16 +127,51 @@ public class LipstickFragment extends Fragment {
             lipstickList.add(item);
         }
 
-//        lipstickList.add(new Lipstick("19", "\"#B13C79\"", "Le Fuchsia"));
-//        lipstickList.add(new Lipstick("19", "\"#B13C79\"", "Le Fuchsia"));
-//        lipstickList.add(new Lipstick("19", "\"#B13C79\"", "Le Fuchsia"));
+        recycler.setHasFixedSize(true);
+        recycler.setLayoutManager(layoutManager);
+        lipstickAdapter = new LipstickAdapter(context, lipstickList);
+        // 4. set adapter
+        recycler.setAdapter(lipstickAdapter);
+
+        Spinner spin = (Spinner) rootView.findViewById(R.id.spinner_lipsticks);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, brandsList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spin.setAdapter(adapter);
+        spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                ArrayList<LipstickItem> secondList = new ArrayList<>();
+
+                ((TextView) parentView.getChildAt(0)).setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
+                ((TextView) parentView.getChildAt(0)).setTextSize(15);
+                ((TextView) parentView.getChildAt(0)).setAllCaps(true);
+
+                for (int counter = 0; counter < lipstickItems.size(); counter++) {
+                    if(lipstickItems.get(counter).getBrandName() == brandsList.get(position) && position != 0) {
+                        secondList.add(lipstickItems.get(counter));
+                    }
+
+                }
+
+                lipstickList.clear();
+                if(position == 0) {
+                    lipstickList.addAll(lipstickItems);
+                } else {
+                    lipstickList.addAll(secondList);
+                }
+
+                lipstickAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
 
 
-
-        // 3. create an adapter
-
-//        lipstickAdapter.notifyDataSetChanged();
-        // 5. set item animator to DefaultAnimator
 
         return rootView;
     }
@@ -122,16 +179,15 @@ public class LipstickFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        layoutManager = new LinearLayoutManager(getActivity());
 
-        // 2. set layoutManger
-        recycler.setHasFixedSize(true);
-        recycler.setLayoutManager(layoutManager);
-        lipstickAdapter = new LipstickAdapter(lipstickList);
-        // 4. set adapter
-        recycler.setAdapter(lipstickAdapter);
+
+
 
     }
+
+
+
+
 
 
 
