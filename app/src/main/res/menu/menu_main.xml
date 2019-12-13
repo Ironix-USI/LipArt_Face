@@ -2,14 +2,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_logout"
-        android:title="@string/menu_logout"
-        android:visible="true"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/tutorial"
         android:title="@string/tutorial"
+        android:visible="true"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_logout"
+        android:title="@string/menu_logout"
         android:visible="true"
         app:showAsAction="never" />
 </menu>
