@@ -8,6 +8,7 @@
     <dimen name="margin_message_text_icon">8dp</dimen>
     <dimen name="text">20sp</dimen>
 
+    <dimen name="height_nav">50dp</dimen>
 
     <dimen name="icon_top_margin">24dp</dimen>
     <dimen name="icon_bottom_margin">24dp</dimen>
