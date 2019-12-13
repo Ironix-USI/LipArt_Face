@@ -125,6 +125,245 @@
                     ]
                 }
             ]
+        }, {
+            "name": "Chanel",
+            "series": [
+                {
+                    "name": "ROUGE ALLURE",
+                    "link": "https://www.chanel.com/fr_BE/parfums-beaute/maquillage/p/levres/rouges-a-levres/rouge-allure-le-rouge-intense-p160110.html",
+                    "lipsticks": [
+                        {
+                            "id": "90",
+                            "color": "#FC6E48",
+                            "name": "Pimpante"
+                        },
+                        {
+                            "id": "96",
+                            "color": "#FA421C",
+                            "name": "Excentrique"
+                        },
+                        {
+                            "id": "182",
+                            "color": "#E02E20",
+                            "name": "Vibrante"
+                        },
+                        {
+                            "id": "152",
+                            "color": "#E82F2C",
+                            "name": "Insaisissable"
+                        },
+                        {
+                            "id": "172",
+                            "color": "#E40021",
+                            "name": "Rouge Rebelle"
+                        },
+                        {
+                            "id": "135",
+                            "color": "#99413D",
+                            "name": "Énigmatique"
+                        },
+                        {
+                            "id": "99",
+                            "color": "#8A010D",
+                            "name": "Pirate"
+                        },
+                        {
+                            "id": "176",
+                            "color": "#A80D1F",
+                            "name": "Indépendante"
+                        },
+                        {
+                            "id": "91",
+                            "color": "#E45661",
+                            "name": "Séduisante"
+                        },
+                        {
+                            "id": "179",
+                            "color": "#ED6160",
+                            "name": "Luminous"
+                        },
+                        {
+                            "id": "94",
+                            "color": "#FC3E6E",
+                            "name": "Extatique"
+                        },
+                        {
+                            "id": "138",
+                            "color": "#D93E5E",
+                            "name": "Fougueuse"
+                        },
+                        {
+                            "id": "136",
+                            "color": "#EF4246",
+                            "name": "Mélodieuse"
+                        },
+                        {
+                            "id": "178",
+                            "color": "#BF5363",
+                            "name": "New Prodigious"
+                        },
+                        {
+                            "id": "158",
+                            "color": "#B24957",
+                            "name": "Virevoltante"
+                        },
+                        {
+                            "id": "165",
+                            "color": "#C82C40",
+                            "name": "Éblouissante"
+                        },
+                        {
+                            "id": "102",
+                            "color": "#B20032",
+                            "name": "Palpitante"
+                        }
+                    ]
+                }
+            ]
+        }, {
+            "name": "Dior",
+            "series": [
+                {
+                    "name": "LIP TATTOO",
+                    "link": "https://www.dior.com/en_ch/products/beauty-Y0028967-dior-lip-tattoo-coloured-lip-tint-bare-lip-sensation-extreme-weightless-wear",
+                    "lipsticks": [
+                        {
+                            "id": "351",
+                            "color": "#D8707D",
+                            "name": "Natural Nude"
+                        },
+                        {
+                            "id": "421",
+                            "color": "#AD5F56",
+                            "name": "Natural Beige"
+                        },
+                        {
+                            "id": "451",
+                            "color": "#E55461",
+                            "name": "Natural Coral"
+                        },
+                        {
+                            "id": "491",
+                            "color": "#A76165",
+                            "name": "Natural Rosewood"
+                        },
+                        {
+                            "id": "761",
+                            "color": "#E13D5D",
+                            "name": "Natural Cherry"
+                        },
+                        {
+                            "id": "771",
+                            "color": "#974249",
+                            "name": "Natural Berry"
+                        },
+                        {
+                            "id": "881",
+                            "color": "#EC6292",
+                            "name": "Natural Pink"
+                        }
+                    ]
+                }
+            ]
+        }, {
+            "name": "Givenchy",
+            "series": [
+                {
+                    "name": "ROUGE INTERDIT",
+                    "link": "https://www.givenchybeauty.com/int/en/p/rouge-interdit-F20100049.html",
+                    "lipsticks": [
+                        {
+                            "id": "11",
+                            "color": "#BA353C",
+                            "name": "Orange Underground"
+                        },
+                        {
+                            "id": "7",
+                            "color": "#8B2844",
+                            "name": "Purple Fiction"
+                        },
+                        {
+                            "id": "8",
+                            "color": "#B12252",
+                            "name": "Framboise Obscure"
+                        },
+                        {
+                            "id": "9",
+                            "color": "#DD485B",
+                            "name": "Rose Alibi"
+                        },
+                        {
+                            "id": "10",
+                            "color": "#B53D52",
+                            "name": "Boyish Rose"
+                        },
+                        {
+                            "id": "12",
+                            "color": "#B9282D",
+                            "name": "Rouge Insomnie"
+                        },
+                        {
+                            "id": "13",
+                            "color": "#CA292E",
+                            "name": "Rouge Interdit"
+                        },
+                        {
+                            "id": "14",
+                            "color": "#CB2D21",
+                            "name": "Redlight"
+                        },
+                        {
+                            "id": "15",
+                            "color": "#D43A29",
+                            "name": "Orange Adrenaline"
+                        },
+                        {
+                            "id": "16",
+                            "color": "#DF4541",
+                            "name": "Wanted Coral"
+                        },
+                        {
+                            "id": "18",
+                            "color": "#D35C5E",
+                            "name": "Addicted to Rose"
+                        },
+                        {
+                            "id": "22",
+                            "color": "#EC2663",
+                            "name": "Infrarose"
+                        },
+                        {
+                            "id": "23",
+                            "color": "#C62E54",
+                            "name": "Fuchsia-in-the-Know"
+                        },
+                        {
+                            "id": "24",
+                            "color": "#AA2260",
+                            "name": "Ultravioline"
+                        },
+                        {
+                            "id": "17",
+                            "color": "#DD5852",
+                            "name": "Flash Coral"
+                        },
+                        {
+                            "id": "19",
+                            "color": "#E36476",
+                            "name": "Rosy Night"
+                        },
+                        {
+                            "id": "20",
+                            "color": "#EC6284",
+                            "name": "Wild Rose"
+                        },{
+                            "id": "21",
+                            "color": "#EA586F",
+                            "name": "Rose Neon"
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }
