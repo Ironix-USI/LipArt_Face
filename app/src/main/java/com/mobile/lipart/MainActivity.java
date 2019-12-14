@@ -37,10 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0)
-            getSupportFragmentManager().popBackStack();
-        else
-            finish();    // Finish the activity
+        moveTaskToBack(true);// Finish the activity
     }
 
     @Override
