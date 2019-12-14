@@ -11,6 +11,8 @@ public class Lipstick {
         this.name = name;
     }
 
+    public Lipstick(String color, String name) { this("none",color, name); }
+
 
     public String getName() {
         return name;

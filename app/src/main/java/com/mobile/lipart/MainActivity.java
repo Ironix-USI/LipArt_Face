@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
                 R.id.navigation_home, R.id.navigation_circle, R.id.navigation_snap, R.id.navigation_buy, R.id.navigation_profile)
                 .build();
 
+        navView.getMenu().getItem(2).setChecked(true);
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);

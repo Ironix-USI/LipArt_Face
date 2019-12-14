@@ -48,4 +48,5 @@ public class ProfileViewModel extends ViewModel {
         return mPostCount;
     }
     public static String getUserName() { return mUsername; }
+    public static String getUserId() { return FirebaseAuth.getInstance().getCurrentUser().getUid(); }
 }
