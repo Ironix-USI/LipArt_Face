@@ -436,6 +436,8 @@ public final class StillImageActivity extends BaseActivity {
     String key = mDatabase.child("user-colors").push().getKey();
     Map<String, Object> colorValues = new HashMap<>();
     colorValues.put("color", hex);
+    //    TODO: put color name
+    colorValues.put("name", "");
 
     Map<String, Object> childUpdates = new HashMap<>();
     childUpdates.put("/user-colors/" + userId + "/" + key, colorValues);
