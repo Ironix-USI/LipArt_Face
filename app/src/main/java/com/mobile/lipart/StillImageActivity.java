@@ -387,8 +387,8 @@ public final class StillImageActivity extends BaseActivity {
           graphicOverlay.add(new CloudLabelGraphic(graphicOverlay, x, y));
           int pixel = bitmapForDetection.getPixel(x,y);
           int r = Color.red(pixel);
-          int g = Color.blue(pixel);
-          int b = Color.green(pixel);
+          int b = Color.blue(pixel);
+          int g = Color.green(pixel);
           hex = String.format("#%02X%02X%02X", r, g, b);
           graphicOverlay.clear();
           drawable.setColorFilter(Color.parseColor(hex), PorterDuff.Mode.SRC);
