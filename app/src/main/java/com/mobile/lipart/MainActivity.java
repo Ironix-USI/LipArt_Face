@@ -1,6 +1,7 @@
 package com.mobile.lipart;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
         if (i == R.id.action_logout) {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(this, EmailPasswordActivity.class));
+            return true;
+        } else if (i == R.id.tutorial) {
+            String url = "https://youtu.be/e8n-lbmtOLs";
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            intent.setData(Uri.parse(url));
+            startActivity(intent);
             return true;
         } else {
             return super.onOptionsItemSelected(item);
