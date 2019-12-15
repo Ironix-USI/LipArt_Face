@@ -1,10 +1,17 @@
 package com.mobile.lipart.facedetection;
 
+import android.graphics.BlendMode;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.EmbossMaskFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 
 import com.google.firebase.ml.vision.common.FirebaseVisionPoint;
 import com.google.firebase.ml.vision.face.FirebaseVisionFace;
@@ -37,13 +44,46 @@ public class FaceContourGraphic extends Graphic {
 //    final int lipColor = ColorUtil.HSLToColor(ColorUtil.colorToHSL(test));
 //    final int lipColor = Color.parseColor("#99ff0000");
 
+//    brightness -255 < x < 255 default 0
+//    contrast 0 - 10 default 1
+//    ColorMatrix cm = new ColorMatrix(new float[]
+//            {
+//                    contrast, 0, 0, 0, brightness,
+//                    0, contrast, 0, 0, brightness,
+//                    0, 0, contrast, 0, brightness,
+//                    0, 0, 0, contrast, 0
+//            });
+//    lipPaint.setColorFilter(new ColorMatrixColorFilter(cm));
+
+//    float[] hsv = new float[3];
+//    Color.colorToHSV(lipColor, hsv);
+//    hsv[2] = 0.2f + 0.8f * hsv[2]; // value component
+//    lipColor = Color.HSVToColor(hsv);
+
+//    ColorFilter filter;
+//    filter = new PorterDuffColorFilter(lipColor, PorterDuff.Mode.SRC_IN);
+//    lipPaint.setColorFilter(filter);
+
     // Color Blending
-    final int lipColor = Color.parseColor(color);
+    int lipColor = Color.parseColor(color);
+
+    float[] hsv = new float[3];
+    Color.colorToHSV(lipColor, hsv);
+    hsv[2] = 1.0f - 0.8f * (1.0f - hsv[2]); // value component
+    lipColor = Color.HSVToColor(hsv);
+
     lipPaint.setStyle(Paint.Style.FILL);
     lipPaint.setColor(lipColor);
+
+    lipPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+
+    lipPaint.setStrokeWidth(3);
+    lipPaint.setDither(true);
+
     // opacity
-    lipPaint.setAlpha(65);
+    lipPaint.setAlpha(50);
     lipPaint.setAntiAlias(true);
+    lipPaint.clearShadowLayer();
     // Blur
     lipPaint.setMaskFilter(new BlurMaskFilter(12, BlurMaskFilter.Blur.NORMAL));
   }
