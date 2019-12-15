@@ -41,8 +41,8 @@ public class MyLipsticksAdapter extends RecyclerView.Adapter<MyLipsticksAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if(getItemCount() != 0) {
-                holder.myLipstick.setColorFilter(Color.parseColor(lipsticks.get(position).getColor().trim()));
-            holder.lipstickName.setText(lipsticks.get(position).getName());
+            holder.lipstickName.setText(lipsticks.get(position).getName().isEmpty() ? "Unnamed" : lipsticks.get(position).getName());
+            holder.myLipstick.setColorFilter(Color.parseColor(lipsticks.get(position).getColor().trim()));
         }
 
     }
