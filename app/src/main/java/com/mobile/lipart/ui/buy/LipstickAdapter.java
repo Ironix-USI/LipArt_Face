@@ -56,7 +56,6 @@ public class LipstickAdapter extends RecyclerView.Adapter<LipstickAdapter.Lipsti
          * This method is called when binding the data
          * to the views being created in the recycler view.
          */
-
         @Override
         public void onBindViewHolder(@NonNull LipstickViewHolder holder, final int position) {
             final LipstickItem lipstick = lipstickList.get(position);

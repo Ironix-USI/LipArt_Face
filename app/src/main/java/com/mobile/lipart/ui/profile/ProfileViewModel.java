@@ -21,7 +21,14 @@ public class ProfileViewModel extends ViewModel {
     public ProfileViewModel() {
         mPostCount = new MutableLiveData<>();
 
+        /**
+         * Retrieving the userId.
+         * */
         String uId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        /**
+         * Retrieving the number of posts by the retrieved userId.
+         * */
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("user-posts/" + uId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -36,6 +43,10 @@ public class ProfileViewModel extends ViewModel {
             }
         });
 
+        /**
+         * Retrieving the user name of the current
+         * logged in user.
+         * */
         String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         if (email.contains("@")) {
             mUsername = email.split("@")[0];
@@ -44,9 +55,20 @@ public class ProfileViewModel extends ViewModel {
         }
     }
 
+    /**
+     * Returning the post count to the ProfileFragment.
+     * */
     public LiveData<String> getPostCount() {
         return mPostCount;
     }
+
+    /**
+     * Returning the user name to the ProfileFragment.
+     * */
     public static String getUserName() { return mUsername; }
+
+    /**
+     * Returning the user id to the ProfileFragment.
+     * */
     public static String getUserId() { return FirebaseAuth.getInstance().getCurrentUser().getUid(); }
 }

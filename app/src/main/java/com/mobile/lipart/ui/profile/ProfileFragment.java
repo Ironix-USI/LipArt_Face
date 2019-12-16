@@ -29,6 +29,11 @@ public class ProfileFragment extends Fragment {
                 ViewModelProviders.of(this).get(ProfileViewModel.class);
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
         final TextView countTextView = root.findViewById(R.id.profile_post_count);
+
+        /**
+         * Setting the retrieved posts count from
+         * db to the corresponding text view.
+         * */
         profileViewModel.getPostCount().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -36,9 +41,19 @@ public class ProfileFragment extends Fragment {
             }
 
         });
+
+        /**
+         * Setting the username to the
+         * text field upon receiving it from db.
+         * */
         final TextView userTextView = root.findViewById(R.id.username);
         userTextView.setText(ProfileViewModel.getUserName());
 
+
+        /**
+         * Adding a listener to the "My Lipsticks" button
+         * and starting a new activity: MyLipsticksActivity.
+         * */
         (root.findViewById(R.id.my_lipsticks_button)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,11 +63,14 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        /**
+         * Adding a listener to the "Feedback" button
+         * and starting a new activity: FeedbackActivity.
+         * */
         (root.findViewById(R.id.feedback_button)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(getActivity(), FeedbackActivity.class);
-//        myIntent.putExtra("key", value); //Optional parameters
                 startActivity(myIntent);
             }
         });

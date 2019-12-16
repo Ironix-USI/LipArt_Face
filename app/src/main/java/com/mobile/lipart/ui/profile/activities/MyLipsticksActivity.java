@@ -33,15 +33,28 @@ public class MyLipsticksActivity extends AppCompatActivity {
         this.setTitle("MyLipsticks");
         setContentView(R.layout.activity_my_lipsticks);
 
+        /**
+         * Setting up a recycler view with a grid layout,
+         * consisting of 3 columns and attaching a MyLipsticksAdapter
+         * instance to the recycler.
+         * */
         RecyclerView recyclerView = findViewById(R.id.my_lipsticks_recycler);
         int numberOfColumns = 3;
         recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
         adapter = new MyLipsticksAdapter(this, lipsticks);
         recyclerView.setAdapter(adapter);
 
-
+        /**
+         * Retrieving an instance of the db.
+         * */
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        /**
+         * Retrieving the user-colors table from the db
+         * for the current logged in user and saving
+         * a list of all their lipsticks to be added
+         * to the adapter.
+         * */
         mDatabase.child("user-colors").child(getIntent().getStringExtra("userId"))
                 .addValueEventListener(new ValueEventListener() {
             @Override
