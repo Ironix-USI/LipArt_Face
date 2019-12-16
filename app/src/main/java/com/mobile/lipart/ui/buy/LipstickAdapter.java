@@ -22,23 +22,27 @@ import java.util.ArrayList;
 
 public class LipstickAdapter extends RecyclerView.Adapter<LipstickAdapter.LipstickViewHolder> {
 
-        // List to store all the contact details
+        /**
+         * List to store all the lipstick details
+         */
         private ArrayList<LipstickItem> lipstickList;
         private Context mContext;
 
-        // Counstructor for the Class
+
         public LipstickAdapter(Context c, ArrayList<LipstickItem> lipstickList) {
             this.lipstickList = lipstickList;
             this.mContext = c;
 
         }
 
-        // This method creates views for the RecyclerView by inflating the layout
-        // Into the viewHolders which helps to display the items in the RecyclerView
+        /**
+         * This method creates views for the RecyclerView by inflating the layout
+         * into the view holders which helps to display the items in the RecyclerView.
+         */
         @Override
         public LipstickViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-            // Inflate the layout view you have created for the list rows here
+
             View view = LayoutInflater.from(mContext).inflate(R.layout.item_lipstick, parent, false);
             return new LipstickViewHolder(view);
         }
@@ -48,20 +52,26 @@ public class LipstickAdapter extends RecyclerView.Adapter<LipstickAdapter.Lipsti
             return lipstickList == null? 0: lipstickList.size();
         }
 
-        // This method is called when binding the data to the views being created in RecyclerView
+        /**
+         * This method is called when binding the data
+         * to the views being created in the recycler view.
+         */
+
         @Override
         public void onBindViewHolder(@NonNull LipstickViewHolder holder, final int position) {
             final LipstickItem lipstick = lipstickList.get(position);
 
-            // Set the data to the views here
+            /**
+             * Setting the data to the views here
+             * */
             holder.bindToLipstick(lipstick);
-
-            // You can set click listners to indvidual items in the viewholder here
-            // make sure you pass down the listner or make the Data members of the viewHolder public
 
         }
 
-        // This is your ViewHolder class that helps to populate data to the view
+        /**
+         * This is the lipstick view holder class
+         * that helps to populating the data to the view.
+         * */
         public class LipstickViewHolder extends RecyclerView.ViewHolder {
 
             public TextView lipstickBrandView;
@@ -88,10 +98,12 @@ public class LipstickAdapter extends RecyclerView.Adapter<LipstickAdapter.Lipsti
                 lipstickBuyButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // TODO Auto-generated method stub
+
+                        /**
+                         * Opening the browser on Buy button next to
+                         * a particular lipstick being clicked.
+                         * */
                         String url = lipstick.getLink();
-
-
                         Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                         i.setData(Uri.parse(url));
                         v.getContext().startActivity(i);

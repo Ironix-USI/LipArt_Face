@@ -19,10 +19,7 @@
         <activity android:name=".ui.profile.activities.FeedbackActivity"></activity>
         <activity android:name=".ui.profile.activities.MyLipsticksActivity" />
         <activity android:name=".ui.profile.activities.MyLipsticks" />
-        <activity
-            android:name=".ui.buy.BuyActivity"
-            android:label="@string/title_activity_buy"
-            android:theme="@style/AppTheme.NoActionBar" /> <!-- <activity android:name=".ChooserActivity"> -->
+        <!-- <activity android:name=".ChooserActivity"> -->
         <!-- <activity android:name=".MainActivity"> -->
         <activity android:name=".EmailPasswordActivity">
             <intent-filter>

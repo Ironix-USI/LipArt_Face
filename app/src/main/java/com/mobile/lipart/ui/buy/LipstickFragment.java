@@ -58,16 +58,17 @@ public class LipstickFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
         View rootView = inflater.inflate(R.layout.fragment_buy, container, false);
         context = getContext();
         recycler = rootView.findViewById(R.id.lipstickList);
-        recycler.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(context);
-
-        // 2. set layoutManger
 
 
-
+        /**
+         * The resources from our lipstick data base that is in raw/color.json
+         * are extracted in the following code and casted to the proper models
+         * for our application, in order to be used and displayed.
+         * */
         InputStream is = getResources().openRawResource(R.raw.color);
         Writer writer = new StringWriter();
         char[] buffer = new char[1024];
@@ -109,10 +110,20 @@ public class LipstickFragment extends Fragment {
                     String lId = ((JsonObject) lipstick).get("id").getAsString();
                     String lColor = ((JsonObject) lipstick).get("color").getAsString();
                     lipsticks.add(new Lipstick(lId, lColor, lName));
+
+                    /**
+                     * Saving the properties in the json tree that are needed for the view
+                     * in lipstick item model' instances.
+                     * */
                     lipstickItems.add(new LipstickItem(lId, lColor, lName, bName, lsName, lsLink));
                 }
                 lipstickSeries.add(new LipstickSeries(lsName, lsLink, lipsticks));
             }
+
+            /**
+             * Saving only the brand names in a list
+             * to be used by the Spinner.
+             * */
             brands.add(new Brand(bName, lipstickSeries));
             if(brandsList.isEmpty()){
                 brandsList.add("All");
@@ -122,17 +133,26 @@ public class LipstickFragment extends Fragment {
             }
         }
 
-
+        /**
+         * Populating the list of lipstick items that
+         * will be used by the recycler view.
+         * */
         for (LipstickItem item : lipstickItems) {
             lipstickList.add(item);
         }
 
+        /**
+         * Setting up the recycler and the adapter.
+         * */
         recycler.setHasFixedSize(true);
         recycler.setLayoutManager(layoutManager);
         lipstickAdapter = new LipstickAdapter(context, lipstickList);
-        // 4. set adapter
         recycler.setAdapter(lipstickAdapter);
 
+        /**
+         * Setting up the drop down menu in
+         * the form of a spinner.
+         * */
         Spinner spin = (Spinner) rootView.findViewById(R.id.spinner_lipsticks);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, brandsList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -153,6 +173,10 @@ public class LipstickFragment extends Fragment {
 
                 }
 
+                /**
+                 * Updating the list of lipstick items every time
+                 * the user picks an item from the spinner.
+                 * */
                 lipstickList.clear();
                 if(position == 0) {
                     lipstickList.addAll(lipstickItems);

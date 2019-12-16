@@ -11,7 +11,7 @@ public class BuyViewModel extends ViewModel {
 
     public BuyViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        mText.setValue("This is buy fragment");
     }
 
     public LiveData<String> getText() {

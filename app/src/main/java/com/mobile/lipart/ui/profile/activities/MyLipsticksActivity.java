@@ -52,7 +52,7 @@ public class MyLipsticksActivity extends AppCompatActivity {
                     for (DataSnapshot lipstickSnapshotItem: lipstickSnapshot.getChildren()) {
                         lipstickProperties.add(lipstickSnapshotItem.getValue().toString());
                     }
-                    lipsticks.add(new Lipstick(lipstickSnapshot.getKey(), lipstickProperties.get(0), lipstickProperties.get(1)));
+                    lipsticks.add(new Lipstick(lipstickSnapshot.getKey(), lipstickProperties.get(0), lipstickProperties.get(1) == null ? "" : lipstickProperties.get(1)));
                     adapter.notifyDataSetChanged();
                 }
             }

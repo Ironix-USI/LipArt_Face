@@ -18,24 +18,20 @@ public class BuyFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-//        buyViewModel =
-//                ViewModelProviders.of(this).get(BuyViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_buy, container, false);
-//        final TextView textView = root.findViewById(R.id.text_buy);
-//        buyViewModel.getText().observe(this, new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-////                textView.setText(s);
-//            }
-//        });
 
+        View root = inflater.inflate(R.layout.fragment_buy, container, false);
+
+        /**
+         * Since the main functionality is about buying lipsticks,
+         * it can be found in the LipstickFragment. This fragment serves
+         * simply as a container.
+         * */
         Fragment someFragment = new LipstickFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_buy, someFragment ); // give your fragment container id in first parameter
-        transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
+        transaction.replace(R.id.fragment_buy, someFragment );
+        transaction.addToBackStack(null);
         transaction.commit();
 
-//        startActivity(new Intent(getActivity(), BuyActivity.class));
         return root;
     }
 }
