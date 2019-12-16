@@ -16,12 +16,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.profile.activities.FeedbackActivity"></activity>
-        <activity android:name=".ui.profile.activities.MyLipsticksActivity" />
-        <activity android:name=".ui.profile.activities.MyLipsticks" />
+        <activity android:name=".main.profile.activities.FeedbackActivity"></activity>
+        <activity android:name=".main.profile.activities.MyLipsticksActivity" />
+        <activity android:name=".main.profile.activities.MyLipsticks" />
         <!-- <activity android:name=".ChooserActivity"> -->
         <!-- <activity android:name=".MainActivity"> -->
-        <activity android:name=".EmailPasswordActivity">
+        <activity android:name=".main.login.EmailPasswordActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,16 +34,16 @@
             android:value="face, label" />
 
         <activity
-            android:name=".LivePreviewActivity"
+            android:name=".main.snap.LivePreviewActivity"
             android:exported="true" />
         <activity
-            android:name=".StillImageActivity"
+            android:name=".main.snap.StillImageActivity"
             android:exported="true" />
         <activity
             android:name=".ChooserActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".main.login.MainActivity"
             android:exported="true" />
         <activity
             android:name=".common.preference.SettingsActivity"
@@ -55,7 +55,7 @@
             android:name=".NewPostActivity"
             android:exported="true" />
         <activity
-            android:name=".PostDetailActivity"
+            android:name=".main.post.PostDetailActivity"
             android:exported="true" />
     </application>
 
