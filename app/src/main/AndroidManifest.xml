@@ -55,7 +55,7 @@
             android:name=".NewPostActivity"
             android:exported="true" />
         <activity
-            android:name=".main.post.PostDetailActivity"
+            android:name=".main.circle.PostDetailActivity"
             android:exported="true" />
     </application>
 

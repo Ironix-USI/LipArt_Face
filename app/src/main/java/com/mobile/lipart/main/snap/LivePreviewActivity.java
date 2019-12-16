@@ -58,7 +58,7 @@ import com.mobile.lipart.common.CameraSourcePreview;
 import com.mobile.lipart.common.GraphicOverlay;
 import com.mobile.lipart.common.preference.SettingsActivity;
 import com.mobile.lipart.common.preference.SettingsActivity.LaunchSource;
-import com.mobile.lipart.facedetection.FaceContourDetectorProcessor;
+import com.mobile.lipart.common.facedetection.FaceContourDetectorProcessor;
 import com.mobile.lipart.model.Post;
 import com.mobile.lipart.model.User;
 

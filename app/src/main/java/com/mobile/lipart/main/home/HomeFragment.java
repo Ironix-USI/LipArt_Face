@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.mobile.lipart.R;
-import com.mobile.lipart.main.post.RecentPostsFragment;
+import com.mobile.lipart.main.circle.RecentPostsFragment;
 
 public class HomeFragment extends Fragment {
 

@@ -1,4 +1,4 @@
-package com.mobile.lipart.facedetection;
+package com.mobile.lipart.common.facedetection;
 
 import android.graphics.Bitmap;
 import android.util.Log;

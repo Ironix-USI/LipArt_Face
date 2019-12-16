@@ -1,4 +1,4 @@
-package com.mobile.lipart.main.post;
+package com.mobile.lipart.main.circle;
 
 import android.content.Context;
 import android.graphics.Color;
