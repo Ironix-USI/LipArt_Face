@@ -63,6 +63,13 @@ public class LipstickFragment extends Fragment {
         context = getContext();
         recycler = rootView.findViewById(R.id.lipstickList);
 
+        /**
+         * Setting up the recycler and the adapter.
+         * */
+        recycler = rootView.findViewById(R.id.lipstickList);
+        recycler.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(context);
+
 
         /**
          * The resources from our lipstick data base that is in raw/color.json
@@ -141,13 +148,11 @@ public class LipstickFragment extends Fragment {
             lipstickList.add(item);
         }
 
-        /**
-         * Setting up the recycler and the adapter.
-         * */
         recycler.setHasFixedSize(true);
         recycler.setLayoutManager(layoutManager);
         lipstickAdapter = new LipstickAdapter(context, lipstickList);
         recycler.setAdapter(lipstickAdapter);
+
 
         /**
          * Setting up the drop down menu in
