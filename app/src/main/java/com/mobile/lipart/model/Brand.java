@@ -2,6 +2,9 @@ package com.mobile.lipart.model;
 
 import java.util.ArrayList;
 
+/***
+ * Brand model
+ ***/
 public class Brand {
     private String name;
     private ArrayList<LipstickSeries> lipstickSeries;

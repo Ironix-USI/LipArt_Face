@@ -1,5 +1,8 @@
 package com.mobile.lipart.model;
 
+/***
+ * Lipstick model
+ ***/
 public class Lipstick {
     private String id;
     private String color;

@@ -187,47 +187,30 @@ public final class LivePreviewActivity extends BaseActivity
         });
 
         loadButton = findViewById(R.id.loadButton);
+        /***
+         * Prepare pallete color buttons
+         ***/
         loadButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                /***
+                 * Set buttons linear layout attributes (margin, gravity, etc)
+                 ***/
                 LinearLayout palette = findViewById(R.id.palette);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.setMargins(10, 10, 5, 20);
                 params.gravity = Gravity.CENTER_VERTICAL;
-//                for (int i = 0; i < lipstickColor.size(); i++) {
-//                    final ImageView iv = new ImageView(getApplicationContext());
-//                    iv.setImageResource(R.drawable.circle_palette);
-//                    iv.setColorFilter(Color.parseColor(lipstickColor.get(i)));
-//                    iv.setPadding(5,5,5,5);
-//                    iv.setLayoutParams(params);
-//                    iv.setId(i+1);
-//                    final int finalI = i;
-//                    iv.setOnClickListener(new View.OnClickListener() {
-//                        public void onClick(View v) {
-//                            preview.stop();
-//                            hex = lipstickColor.get(finalI);
-//                            // Add pallete border to show focus button
-//                            GradientDrawable drawable = new GradientDrawable();
-//                            drawable.setColor(Color.TRANSPARENT);
-//                            drawable.setShape(GradientDrawable.OVAL);
-//                            drawable.setStroke(4, Color.parseColor("#e1e2e3"));
-//                            drawable.setSize(2, 2);
-//                            // remove current focused border
-//                            if(focusButton != 0){
-//                                final ImageView focusiv = findViewById(focusButton);
-//                                focusiv.setBackgroundResource(0);
-//                            }
-//                            // add new focus border
-//                            focusButton = iv.getId();
-//                            iv.setBackground(drawable);
-//                            createCameraSource(FACE_CONTOUR, hex);
-//                            startCameraSource();
-//                        }
-//                    });
-//                    palette.addView(iv);
-//                }
                 int i = 0;
+
+                /***
+                 * Set buttons
+                 ***/
                 for (String key : mapColor.keySet()) {
                     final ImageView iv = new ImageView(getApplicationContext());
+
+                    /***
+                     * Set param button attributes ( padding, color, shape, etc)
+                     ***/
                     iv.setImageResource(R.drawable.circle_palette);
                     iv.setColorFilter(Color.parseColor(mapColor.get(key)));
                     iv.setPadding(5,5,5,5);
@@ -235,6 +218,10 @@ public final class LivePreviewActivity extends BaseActivity
                     iv.setId(i+1);
                     final String finalColor = mapColor.get(key);
                     final String finalKey = key;
+
+                    /***
+                     * Set button on click listener
+                     ***/
                     iv.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             preview.stop();
@@ -260,6 +247,9 @@ public final class LivePreviewActivity extends BaseActivity
                             startCameraSource();
                         }
                     });
+                    /***
+                     * add each buttons to the layout
+                     ***/
                     palette.addView(iv);
                     i++;
                 }
@@ -269,6 +259,9 @@ public final class LivePreviewActivity extends BaseActivity
         });
     }
 
+    /***
+     * navigation bar try menu is created open live_preview_menu
+     ***/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.live_preview_menu, menu);
@@ -287,6 +280,9 @@ public final class LivePreviewActivity extends BaseActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /***
+     * turn on live front camera source
+     ***/
     private void createCameraSource(String model, String color) {
         // If there's no existing cameraSource, create one.
         if (cameraSource == null) {
@@ -360,6 +356,9 @@ public final class LivePreviewActivity extends BaseActivity
         }
     }
 
+    /***
+     * GET USERS PERMISSION
+     ***/
     private String[] getRequiredPermissions() {
         try {
             PackageInfo info =
@@ -419,6 +418,9 @@ public final class LivePreviewActivity extends BaseActivity
         return false;
     }
 
+    /***
+     * Share button function
+     ***/
     private void sharePost() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -448,6 +450,9 @@ public final class LivePreviewActivity extends BaseActivity
         builder.show();
     }
 
+    /***
+     * Submit Post of share button function
+     ***/
     private void submitPost(final String body, final String color) { ;
         mDatabase.child("users").child(userId).addListenerForSingleValueEvent(
                 new ValueEventListener() {

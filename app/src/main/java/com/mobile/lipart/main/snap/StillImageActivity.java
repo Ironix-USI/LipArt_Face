@@ -372,6 +372,9 @@ public final class StillImageActivity extends BaseActivity {
     return new Pair<>(targetWidth, targetHeight);
   }
 
+  /***
+   * on image touch detect color
+   ***/
   @Override
   public boolean onTouchEvent(MotionEvent event){
 
@@ -387,11 +390,19 @@ public final class StillImageActivity extends BaseActivity {
           int x = (int) (event.getX());
           int y = (int) (event.getY() - status_bar);
           graphicOverlay.add(new CloudLabelGraphic(graphicOverlay, x, y));
+
+          /***
+           * color detection
+           ***/
           int pixel = bitmapForDetection.getPixel(x,y);
           int r = Color.red(pixel);
           int b = Color.blue(pixel);
           int g = Color.green(pixel);
           hex = String.format("#%02X%02X%02X", r, g, b);
+
+          /***
+           * show the touch color
+           ***/
           graphicOverlay.clear();
           drawable.setColorFilter(Color.parseColor(hex), PorterDuff.Mode.SRC);
           pickedColorText.setVisibility(View.INVISIBLE);
@@ -401,6 +412,9 @@ public final class StillImageActivity extends BaseActivity {
     }
   }
 
+  /***
+   * Save Color function
+   ***/
   private void saveColor() {
     final String userId = getUid();
     mDatabase.child("users").child(userId).addListenerForSingleValueEvent(
@@ -479,6 +493,9 @@ public final class StillImageActivity extends BaseActivity {
     builder.show();
   }
 
+  /***
+   * submit post function
+   ***/
   private void submitPost(final String body, final String color) {
     final String userId = getUid();
     mDatabase.child("users").child(userId).addListenerForSingleValueEvent(

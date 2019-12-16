@@ -28,34 +28,6 @@ public class FaceContourGraphic extends Graphic {
     this.firebaseVisionFace = face;
 
     lipPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-//    int test = Color.parseColor("#99ff0000");
-//    int darken = ColorUtil.darken(test, 30);
-//    int light = ColorUtil.lighten(test, 30);
-//    int hue = ColorUtil.hue(test, 5);
-//    final int lipColor = ColorUtil.adjustAlpha(test, 0.3f);
-
-//    final int lipColor = ColorUtil.HSLToColor(ColorUtil.colorToHSL(test));
-//    final int lipColor = Color.parseColor("#99ff0000");
-
-//    brightness -255 < x < 255 default 0
-//    contrast 0 - 10 default 1
-//    ColorMatrix cm = new ColorMatrix(new float[]
-//            {
-//                    contrast, 0, 0, 0, brightness,
-//                    0, contrast, 0, 0, brightness,
-//                    0, 0, contrast, 0, brightness,
-//                    0, 0, 0, contrast, 0
-//            });
-//    lipPaint.setColorFilter(new ColorMatrixColorFilter(cm));
-
-//    float[] hsv = new float[3];
-//    Color.colorToHSV(lipColor, hsv);
-//    hsv[2] = 0.2f + 0.8f * hsv[2]; // value component
-//    lipColor = Color.HSVToColor(hsv);
-
-//    ColorFilter filter;
-//    filter = new PorterDuffColorFilter(lipColor, PorterDuff.Mode.SRC_IN);
-//    lipPaint.setColorFilter(filter);
 
     // Color Blending
     int lipColor = Color.parseColor(color);
